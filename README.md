@@ -1,5 +1,42 @@
+<p align="center">
+  <img src="./assets/logo/squarestruct-logo.png" alt="SquareStruct Logo" width="220" />
+</p>
+
+<p align="center">
+  <a href="https://img.shields.io/badge/Java-17-orange?logo=openjdk&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/Java-17-orange?logo=openjdk&logoColor=white&style=flat-square" alt="Java"/>
+  </a>
+
+  <a href="https://img.shields.io/badge/Maven-3.9-C71A36?logo=apachemaven&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/Maven-3.9-C71A36?logo=apachemaven&logoColor=white&style=flat-square" alt="Maven"/>
+  </a>
+
+  <a href="https://img.shields.io/badge/MariaDB-11-003545?logo=mariadb&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/MariaDB-11-003545?logo=mariadb&logoColor=white&style=flat-square" alt="MariaDB"/>
+  </a>
+
+  <a href="https://img.shields.io/badge/Docker-2496ed?logo=docker&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/Docker-2496ed?logo=docker&logoColor=white&style=flat-square" alt="Docker"/>
+  </a>
+
+  <a href="https://img.shields.io/badge/IntelliJ_IDEA-black?logo=intellijidea&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/IntelliJ_IDEA-black?logo=intellijidea&logoColor=white&style=flat-square" alt="IntelliJ"/>
+  </a>
+</p>
+
 # squarestruct-java-manager
-Aplicación corporativa en Java para la gestión interna de SquareStruct, desarrollada con arquitectura en capas, DTOs, Factory Pattern, persistencia MySQL/memoria y TDD.
+
+Aplicación corporativa en Java para la gestión interna de SquareStruct, basada en arquitectura en capas y persistencia MariaDB/MySQL.
+
+---
+
+## Repositorio relacionado
+
+Frontend y backend principal del ecosistema SquareStruct:
+
+- [squarestruct-app](https://github.com/Key-Claw/squarestruct-app)
+
+---
 
 ## Tecnologías
 
@@ -9,16 +46,22 @@ Aplicación corporativa en Java para la gestión interna de SquareStruct, desarr
 - Docker
 - IntelliJ IDEA
 
+---
+
 ## Arquitectura
 
 El proyecto sigue una arquitectura en capas basada en:
 
-- config
-- connection
-- dao
-- service
-- model
-- ui
+```plaintext
+config
+connection
+dao
+service
+model
+ui
+```
+
+---
 
 ## Base de datos
 
@@ -26,4 +69,30 @@ La aplicación reutiliza la estructura SQL principal del ecosistema SquareStruct
 
 - schema.sql
 - seeds.sql
-  CUANDO LO HAGAS
+
+---
+
+## Documentación
+
+### Arquitectura
+
+- [Overview arquitectura](docs/architecture/overview.md)
+
+### Java y Maven
+
+- [Conceptos clave de Maven](docs/java/maven-conceptos-clave.md)
+- [Instalación Java + Maven en Windows](docs/java/instalacion-java-maven-windows.md)
+- [Instalación Java + Maven en macOS](docs/java/instalacion-java-maven-macos.md)
+
+---
+
+## Objetivo
+
+Crear una aplicación Java corporativa desacoplada del frontend principal de SquareStruct, enfocada en:
+
+- gestión interna
+- persistencia de datos
+- arquitectura escalable
+- conexión MySQL/MariaDB
+- patrones de diseño
+- testing y mantenimiento

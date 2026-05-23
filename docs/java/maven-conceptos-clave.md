@@ -30,6 +30,48 @@ Aquí se define:
 
 ---
 
+### Elementos importantes de pom.xml
+
+```xml
+<groupId>com.squarestruct</groupId>
+<artifactId>squarestruct-java-manager</artifactId>
+<version>1.0-SNAPSHOT</version>
+```
+
+#### groupId
+Identifica la organización o proyecto.
+
+Suele escribirse con dominio invertido.
+
+Ejemplo:
+```plaintext
+com.squarestruct
+```
+
+---
+
+#### artifactId
+Nombre del proyecto o aplicación.
+
+Ejemplo:
+```plaintext
+squarestruct-java-manager
+```
+
+---
+
+#### version
+Versión actual del proyecto.
+
+Ejemplo:
+```plaintext
+1.0-SNAPSHOT
+```
+
+`SNAPSHOT` indica que el proyecto sigue en desarrollo.
+
+---
+
 ## Estructura básica Maven
 
 ```plaintext
@@ -92,6 +134,7 @@ mvn clean install
 
 ---
 
-## Video explicativo
+## Videos explicativos
 
-[Maven Conceptos Clave](https://www.youtube.com/watch?v=xf0Dx4qgBUs)
+- [Maven Conceptos Clave](https://www.youtube.com/watch?v=xf0Dx4qgBUs)
+- [POM.xml Conceptos Clave](https://www.youtube.com/watch?v=8aDBQJPSYKY)

@@ -1,3 +1,15 @@
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\enums\EstadoPedido.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\enums\RolUsuario.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\enums\TipoProducto.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\model\BloquePlantilla.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\model\Factura.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\model\Pedido.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\model\PedidoDetalle.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\model\PlantillaConstructiva.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\model\Presupuesto.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\model\Producto.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\model\Proveedor.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\model\Usuario.java
 D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\manager\config\DatabaseConfig.java
 D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\manager\connection\MySQLConnection.java
 D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\manager\Main.java

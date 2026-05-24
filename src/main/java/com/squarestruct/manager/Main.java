@@ -1,8 +1,11 @@
 package com.squarestruct.manager;
 
+import com.squarestruct.manager.ui.menu.MainMenu;
+
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("SquareStruct Java Manager iniciado correctamente.");
+        MainMenu mainMenu = new MainMenu();
+        mainMenu.iniciar();
     }
 }

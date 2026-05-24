@@ -59,11 +59,12 @@ La aplicación reutiliza la estructura SQL principal del ecosistema SquareStruct
 
 - [Overview arquitectura](docs/architecture/overview.md)
 
-### Java y Maven
+### Java, Maven, Dto y Mapper
 
 - [Conceptos clave de Maven](docs/java/maven-conceptos-clave.md)
 - [Instalación Java + Maven en Windows](docs/java/instalacion-java-maven-windows.md)
 - [Instalación Java + Maven en macOS](docs/java/instalacion-java-maven-macos.md)
+- [Dto y Mapper](docs/javadto-mapper-arquitectura-java.md)
 
 
 ## Objetivo

@@ -20,4 +20,44 @@ public class Factura {
         this.total = total;
         this.metodoPago = metodoPago;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public LocalDate getFechaFactura() {
+        return fechaFactura;
+    }
+
+    public void setFechaFactura(LocalDate fechaFactura) {
+        this.fechaFactura = fechaFactura;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
+    }
 }

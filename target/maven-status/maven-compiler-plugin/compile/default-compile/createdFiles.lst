@@ -1,1 +1,13 @@
+com\squarestruct\domain\model\Factura.class
+com\squarestruct\domain\model\Producto.class
+com\squarestruct\domain\enums\RolUsuario.class
+com\squarestruct\domain\model\Proveedor.class
 com\squarestruct\manager\Main.class
+com\squarestruct\domain\model\Usuario.class
+com\squarestruct\domain\enums\TipoProducto.class
+com\squarestruct\domain\model\BloquePlantilla.class
+com\squarestruct\domain\model\Pedido.class
+com\squarestruct\domain\model\PedidoDetalle.class
+com\squarestruct\domain\model\PlantillaConstructiva.class
+com\squarestruct\domain\enums\EstadoPedido.class
+com\squarestruct\domain\model\Presupuesto.class

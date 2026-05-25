@@ -1,5 +1,7 @@
 # Tests unitarios de servicios - Issue #8
 
+Documento de trabajo que resume la revisión de la capa de servicios, los criterios de prueba elegidos y el resultado final de la validación.
+
 ## Estado inicial
 
 Antes de esta tarea, la capa de servicios del proyecto estaba muy poco desarrollada:

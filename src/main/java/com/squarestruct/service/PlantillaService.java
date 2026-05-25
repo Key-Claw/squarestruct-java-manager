@@ -1,3 +1,4 @@
+// Servicio de aplicación para validar plantillas constructivas antes de su uso.
 package com.squarestruct.application.service;
 
 import com.squarestruct.domain.model.PlantillaConstructiva;

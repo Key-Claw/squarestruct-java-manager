@@ -1,3 +1,4 @@
+// Pruebas unitarias del servicio de productos, centradas en validaciones de entrada.
 package com.squarestruct.application.service;
 
 import com.squarestruct.application.dto.ProductoDTO;

@@ -1,3 +1,4 @@
+// Pruebas unitarias del servicio de pedidos para casos válidos y de error.
 package com.squarestruct.application.service;
 
 import com.squarestruct.application.dto.PedidoDTO;

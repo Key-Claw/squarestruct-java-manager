@@ -1,3 +1,4 @@
+// Servicio de aplicación para validar datos básicos de productos antes de procesarlos.
 package com.squarestruct.application.service;
 
 import com.squarestruct.application.dto.ProductoDTO;

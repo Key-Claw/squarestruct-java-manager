@@ -1,3 +1,4 @@
+// Servicio de aplicación para validar presupuestos y sus condiciones de negocio.
 package com.squarestruct.application.service;
 
 import com.squarestruct.domain.model.Presupuesto;

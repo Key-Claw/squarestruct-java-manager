@@ -1,3 +1,4 @@
+// Servicio de aplicación para validar pedidos y asegurar reglas mínimas de negocio.
 package com.squarestruct.application.service;
 
 import com.squarestruct.application.dto.PedidoDTO;

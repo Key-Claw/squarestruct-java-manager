@@ -1,3 +1,4 @@
+// Pruebas unitarias del servicio de plantillas constructivas con validaciones mínimas.
 package com.squarestruct.application.service;
 
 import com.squarestruct.domain.model.BloquePlantilla;

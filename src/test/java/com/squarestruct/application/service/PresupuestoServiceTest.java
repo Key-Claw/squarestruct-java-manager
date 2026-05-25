@@ -1,3 +1,4 @@
+// Pruebas unitarias del servicio de presupuestos con escenarios de negocio aislados.
 package com.squarestruct.application.service;
 
 import com.squarestruct.domain.model.Presupuesto;

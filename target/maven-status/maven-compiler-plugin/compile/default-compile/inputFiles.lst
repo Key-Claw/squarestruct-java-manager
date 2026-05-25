@@ -1,3 +1,9 @@
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\application\dto\PedidoDTO.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\application\dto\ProductoDTO.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\application\dto\ProveedorDTO.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\application\mapper\PedidoMapper.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\application\mapper\ProductoMapper.java
+D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\application\mapper\ProveedorMapper.java
 D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\enums\EstadoPedido.java
 D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\enums\RolUsuario.java
 D:\chipsentinel\squarestruct-java-manager\src\main\java\com\squarestruct\domain\enums\TipoProducto.java

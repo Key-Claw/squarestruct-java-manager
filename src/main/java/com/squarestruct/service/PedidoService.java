@@ -10,6 +10,10 @@ public class PedidoService {
             throw new IllegalArgumentException("El pedido no puede ser nulo");
         }
 
+        if (pedidoDTO.getId() == null || pedidoDTO.getId() <= 0) {
+            throw new IllegalArgumentException("El identificador del pedido debe ser positivo");
+        }
+
     }
 
 }

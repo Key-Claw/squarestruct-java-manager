@@ -90,29 +90,3 @@ com.squarestruct.infrastructure.persistence.mysql
 ```
 
 Ambas implementaciones podran cumplir los mismos contratos definidos en `domain.repository`.
-
-## Validación mediante tests
-
-La persistencia en memoria queda validada mediante tests unitarios con JUnit 5.
-
-Estos tests comprueban las operaciones CRUD básicas sobre los repositorios principales sin depender de MySQL ni de ninguna conexión externa.
-
-Repositorios validados:
-
-- `InMemoryProductoRepository`
-- `InMemoryProveedorRepository`
-- `InMemoryPedidoRepository`
-- `InMemoryPresupuestoRepository`
-
-Operaciones comprobadas:
-
-- creación
-- búsqueda por id
-- listado
-- actualización
-- eliminación
-
-Los tests se encuentran en:
-
-```text
-src/test/java/com/squarestruct/repository

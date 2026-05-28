@@ -2,8 +2,19 @@
 package com.squarestruct.application.service;
 
 import com.squarestruct.application.dto.PedidoDTO;
+import com.squarestruct.domain.repository.PedidoRepository;
 
 public class PedidoService {
+
+    private final PedidoRepository pedidoRepository;
+
+    public PedidoService() {
+        this(null);
+    }
+
+    public PedidoService(PedidoRepository pedidoRepository) {
+        this.pedidoRepository = pedidoRepository;
+    }
 
     public void validarPedido(PedidoDTO pedidoDTO) {
 
@@ -15,6 +26,10 @@ public class PedidoService {
             throw new IllegalArgumentException("El identificador del pedido debe ser positivo");
         }
 
+    }
+
+    public PedidoRepository getPedidoRepository() {
+        return pedidoRepository;
     }
 
 }

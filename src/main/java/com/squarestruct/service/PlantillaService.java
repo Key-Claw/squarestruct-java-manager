@@ -2,8 +2,19 @@
 package com.squarestruct.application.service;
 
 import com.squarestruct.domain.model.PlantillaConstructiva;
+import com.squarestruct.domain.repository.PlantillaRepository;
 
 public class PlantillaService {
+
+    private final PlantillaRepository plantillaRepository;
+
+    public PlantillaService() {
+        this(null);
+    }
+
+    public PlantillaService(PlantillaRepository plantillaRepository) {
+        this.plantillaRepository = plantillaRepository;
+    }
 
     public void validarPlantilla() {
 
@@ -25,6 +36,10 @@ public class PlantillaService {
             throw new IllegalArgumentException("La plantilla debe incluir al menos un bloque");
         }
 
+    }
+
+    public PlantillaRepository getPlantillaRepository() {
+        return plantillaRepository;
     }
 
 }

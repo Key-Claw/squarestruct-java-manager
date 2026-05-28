@@ -2,8 +2,19 @@
 package com.squarestruct.application.service;
 
 import com.squarestruct.application.dto.ProductoDTO;
+import com.squarestruct.domain.repository.ProductoRepository;
 
 public class ProductoService {
+
+    private final ProductoRepository productoRepository;
+
+    public ProductoService() {
+        this(null);
+    }
+
+    public ProductoService(ProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
+    }
 
     public void validarProducto(ProductoDTO productoDTO) {
 
@@ -19,6 +30,10 @@ public class ProductoService {
             throw new IllegalArgumentException("El precio del producto no puede ser negativo");
         }
 
+    }
+
+    public ProductoRepository getProductoRepository() {
+        return productoRepository;
     }
 
 }

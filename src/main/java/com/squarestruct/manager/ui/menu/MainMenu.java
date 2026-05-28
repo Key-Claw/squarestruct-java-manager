@@ -8,6 +8,10 @@ import com.squarestruct.application.service.ProductoService;
 import com.squarestruct.application.service.ProveedorService;
 import java.util.Scanner;
 
+/*
+ * Interfaz de consola de la aplicación.
+ * Recibe servicios ya construidos para mantener el menú separado de la selección de persistencia.
+ */
 public class MainMenu {
 
     private final Scanner scanner = new Scanner(System.in);
@@ -117,6 +121,10 @@ public class MainMenu {
             return;
         }
 
+        /*
+         * Los demás listados aún no están conectados a casos de uso de servicio.
+         * La estructura del menú queda preparada para activarlos módulo a módulo.
+         */
         mostrarFuncionalidadPendiente("Listar " + modulo);
     }
 
@@ -161,6 +169,10 @@ public class MainMenu {
         }
 
         int opcion = scanner.nextInt();
+        /*
+         * Se consume el salto de línea pendiente para que futuras lecturas de texto
+         * no reciban una cadena vacía después de leer un número.
+         */
         scanner.nextLine();
 
         return opcion;

@@ -1,7 +1,3 @@
-/*
- * Repositorio en memoria de productos.
- * Implementa el contrato de dominio usando colecciones Java temporales.
- */
 package com.squarestruct.infrastructure.persistence.memory;
 
 import com.squarestruct.domain.enums.TipoProducto;
@@ -15,6 +11,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/*
+ * Repositorio en memoria de productos.
+ * Implementa el contrato de dominio usando colecciones Java temporales.
+ */
 public class InMemoryProductoRepository extends InMemoryCrudRepository<Producto>
         implements ProductoRepository {
 
@@ -66,7 +66,7 @@ public class InMemoryProductoRepository extends InMemoryCrudRepository<Producto>
     }
 
     private static Map<Long, Producto> seedData() {
-        Proveedor proveedorPlastico = new Proveedor(1L, "Plasticos renovables ByFusion",
+        Proveedor proveedorPlastico = new Proveedor(1L, "Plásticos renovables ByFusion",
                 "+18332925625", "https://byfusion.com/", true);
         Proveedor proveedorHormigon = new Proveedor(2L, "Hormigon Forpol Group",
                 "+34977881287", "https://www.forpol.es/", true);
@@ -74,7 +74,7 @@ public class InMemoryProductoRepository extends InMemoryCrudRepository<Producto>
 
         productos.put(1L, new Producto(1L, "Bloque Eco H80 Max",
                 "Bloque eco modular de gran formato.", 114.00, TipoProducto.BLOQUE,
-                "Plastico reciclable", 20.00, 20.00, 80.00, proveedorPlastico));
+                "Plástico reciclable", 20.00, 20.00, 80.00, proveedorPlastico));
         productos.put(2L, new Producto(2L, "Pilar H80 Refuerzo",
                 "Pilar de hormigon para refuerzo vertical.", 210.00, TipoProducto.PILAR,
                 "Hormigon", 120.00, 40.00, 40.00, proveedorHormigon));

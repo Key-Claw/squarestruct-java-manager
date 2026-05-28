@@ -1,7 +1,3 @@
-/*
- * Repositorio en memoria de presupuestos.
- * Almacena presupuestos de prueba y permite buscarlos por proyecto, producto y fechas.
- */
 package com.squarestruct.infrastructure.persistence.memory;
 
 import com.squarestruct.domain.enums.TipoProducto;
@@ -18,6 +14,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/*
+ * Repositorio en memoria de presupuestos.
+ * Almacena presupuestos de prueba y permite buscarlos por proyecto, producto y fechas.
+ */
 public class InMemoryPresupuestoRepository extends InMemoryCrudRepository<Presupuesto>
         implements PresupuestoRepository {
 
@@ -80,11 +80,11 @@ public class InMemoryPresupuestoRepository extends InMemoryCrudRepository<Presup
     }
 
     private static Map<Long, Presupuesto> seedData() {
-        Proveedor proveedor = new Proveedor(1L, "Plasticos renovables ByFusion",
+        Proveedor proveedor = new Proveedor(1L, "Plásticos renovables ByFusion",
                 "+18332925625", "https://byfusion.com/", true);
         Producto producto = new Producto(1L, "Bloque Eco H80 Max",
                 "Bloque eco modular de gran formato.", 114.00, TipoProducto.BLOQUE,
-                "Plastico reciclable", 20.00, 20.00, 80.00, proveedor);
+                "Plástico reciclable", 20.00, 20.00, 80.00, proveedor);
         Map<Long, Presupuesto> presupuestos = new LinkedHashMap<>();
 
         presupuestos.put(1L, new Presupuesto(1L, "Proyecto modular inicial",

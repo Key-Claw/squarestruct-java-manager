@@ -1,5 +1,8 @@
 package com.squarestruct.application.dto;
 
+/*
+ * DTO de línea de presupuesto con precio unitario, cantidad y subtotal ya calculado.
+ */
 public class PresupuestoDetalleDTO {
 
     private Long productoId;

@@ -1,5 +1,8 @@
 package com.squarestruct.application.dto;
 
+/*
+ * DTO de proveedor para transferir datos básicos sin exponer toda la entidad de dominio.
+ */
 public class ProveedorDTO {
 
     private Long id;

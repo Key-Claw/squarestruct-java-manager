@@ -1,26 +1,33 @@
 # Persistencia en memoria
 
-Este documento describe la implementacion en memoria creada para desarrollo inicial, pruebas y convivencia futura con otras persistencias.
+Este documento describe la implementación en memoria usada por `squarestruct-java-manager`.
 
-## Punto de partida
+## Cuándo se usa
 
-La issue anterior dejo definidos los contratos de repositorio en:
+La persistencia en memoria es el modo por defecto:
 
-```text
-com.squarestruct.domain.repository
+```properties
+persistence.type=memory
 ```
 
-Esos contratos separan el dominio de la persistencia concreta, pero todavia no existia ninguna implementacion que permitiera crear, listar, actualizar o eliminar datos.
+Sirve para:
 
-## Cambio realizado
+- arrancar la aplicación sin base de datos;
+- probar servicios y repositorios de forma rápida;
+- trabajar en el menú de consola durante desarrollo;
+- mantener una alternativa temporal para agregados que aún no tienen implementación MySQL.
 
-Se ha creado el paquete:
+Los datos se pierden al finalizar el proceso.
+
+## Paquete
+
+Las clases viven en:
 
 ```text
 src/main/java/com/squarestruct/infrastructure/persistence/memory
 ```
 
-Dentro de ese paquete se han anadido:
+Implementaciones actuales:
 
 - `InMemoryCrudRepository`
 - `InMemoryProductoRepository`
@@ -30,63 +37,44 @@ Dentro de ese paquete se han anadido:
 - `InMemoryPresupuestoRepository`
 - `InMemoryPlantillaRepository`
 
-Cada repositorio concreto implementa su interfaz correspondiente del dominio.
+## Funcionamiento interno
 
-## Funcionamiento
+`InMemoryCrudRepository` concentra el CRUD común con:
 
-La persistencia se basa en estructuras Java en memoria:
+- `LinkedHashMap<Long, T>` como almacén temporal;
+- generación incremental de IDs cuando la entidad llega sin identificador;
+- `Optional` para búsquedas por ID;
+- `List` para listados y búsquedas con varios resultados.
 
-- `LinkedHashMap<Long, T>` como almacenamiento temporal.
-- IDs `Long` generados incrementalmente cuando la entidad llega sin identificador.
-- `Optional` para busquedas por id o por relacion unica.
-- `List` para listados y busquedas con varios resultados.
+Los repositorios concretos implementan las búsquedas específicas definidas en `domain.repository`.
 
-`InMemoryCrudRepository` concentra el comportamiento comun:
+## Datos semilla
 
-- `create`
-- `findById`
-- `findAll`
-- `update`
-- `deleteById`
-- `existsById`
+Los repositorios tienen constructores con datos de ejemplo:
 
-Los repositorios concretos anaden las busquedas propias de cada entidad, como productos por proveedor, pedidos por usuario, facturas por pedido, presupuestos por producto o plantillas por producto usado en sus bloques.
+```java
+new InMemoryProductoRepository()
+new InMemoryProductoRepository(true)
+```
 
-## Datos minimos de prueba
-
-Cada repositorio en memoria incluye un constructor por defecto con datos minimos de ejemplo para facilitar el desarrollo manual.
-
-Tambien existe un constructor con parametro booleano:
+Para pruebas o fábricas auxiliares se puede crear un repositorio vacío:
 
 ```java
 new InMemoryProductoRepository(false)
 ```
 
-Con `false`, el repositorio se crea vacio. Esto permite usarlo con comodidad en tests unitarios sin datos precargados.
+`InMemoryRepositoryFactory` usa datos semilla por defecto. `MySqlRepositoryFactory` usa una fábrica en memoria sin semillas como alternativa temporal para agregados MySQL todavía pendientes.
 
-## Decisiones de diseno
+## Encaje con servicios
 
-Las clases concretas viven en `infrastructure.persistence.memory` porque son detalles de infraestructura, no reglas del dominio.
-
-No se ha usado MySQL, JDBC, `Connection`, `ResultSet` ni ninguna clase de base de datos. La implementacion solo depende de Java Collections y de los modelos e interfaces del proyecto.
-
-La base comun evita duplicar el CRUD en los seis repositorios y mantiene las diferencias en las busquedas especificas de cada contrato.
-
-## Encaje arquitectonico
-
-La capa queda preparada para que un futuro servicio dependa de interfaces como:
+Los servicios no dependen de `InMemory...Repository`. Reciben interfaces:
 
 ```java
-ProductoRepository productoRepository
+new PresupuestoService(repositoryFactory.presupuestoRepository());
 ```
 
-Ese servicio podra recibir una implementacion en memoria durante pruebas o desarrollo, y una implementacion MySQL en produccion, sin cambiar la logica de negocio.
+Así el mismo servicio puede trabajar con memoria, MySQL u otra persistencia futura.
 
-Ejemplo de convivencia futura:
+## Limitaciones
 
-```text
-com.squarestruct.infrastructure.persistence.memory
-com.squarestruct.infrastructure.persistence.mysql
-```
-
-Ambas implementaciones podran cumplir los mismos contratos definidos en `domain.repository`.
+La persistencia en memoria no garantiza durabilidad, concurrencia entre procesos ni integridad referencial de base de datos. Es una implementación útil para desarrollo, pruebas y prototipado, no una sustitución de MySQL en producción.

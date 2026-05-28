@@ -1,5 +1,9 @@
 package com.squarestruct.domain.model;
 
+/*
+ * Entidad de dominio que representa a una empresa proveedora.
+ * Agrupa datos de contacto y el estado de validación usado por los repositorios.
+ */
 public class Proveedor {
 
     private Long id;

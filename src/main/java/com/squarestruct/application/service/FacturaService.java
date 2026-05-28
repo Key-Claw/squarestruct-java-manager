@@ -2,6 +2,10 @@ package com.squarestruct.application.service;
 
 import com.squarestruct.domain.repository.FacturaRepository;
 
+/*
+ * Servicio de aplicación de facturas.
+ * La validación actual es un marcador temporal mientras se implementan casos de uso de facturación.
+ */
 public class FacturaService {
 
     private final FacturaRepository facturaRepository;

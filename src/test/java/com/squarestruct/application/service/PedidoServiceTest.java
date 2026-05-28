@@ -1,4 +1,3 @@
-// Pruebas unitarias del servicio de pedidos para casos válidos y de error.
 package com.squarestruct.application.service;
 
 import com.squarestruct.application.dto.PedidoDTO;
@@ -9,6 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/*
+ * Pruebas unitarias del servicio de pedidos para casos válidos y de error.
+ */
 class PedidoServiceTest {
 
     private final PedidoService pedidoService = new PedidoService();

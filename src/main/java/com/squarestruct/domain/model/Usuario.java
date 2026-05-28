@@ -2,6 +2,10 @@ package com.squarestruct.domain.model;
 
 import com.squarestruct.domain.enums.RolUsuario;
 
+/*
+ * Entidad de dominio que representa a un usuario del ecosistema SquareStruct.
+ * Sirve como referencia para pedidos y para futuras reglas de permisos o roles.
+ */
 public class Usuario {
 
     private Long id;

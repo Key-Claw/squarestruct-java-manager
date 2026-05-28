@@ -2,6 +2,10 @@ package com.squarestruct.domain.model;
 
 import java.time.LocalDate;
 
+/*
+ * Entidad de dominio que representa la factura asociada a un pedido.
+ * Registra fecha, total y método de pago para consultas administrativas.
+ */
 public class Factura {
 
     private Long id;

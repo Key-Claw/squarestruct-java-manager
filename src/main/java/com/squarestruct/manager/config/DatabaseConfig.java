@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/*
+ * Carga centralizada de application.properties.
+ * La usan Main, RepositoryFactoryProvider y MySqlConnectionFactory para compartir la misma configuración.
+ */
 public final class DatabaseConfig {
 
     private static final String CONFIG_FILE = "application.properties";
@@ -16,6 +20,10 @@ public final class DatabaseConfig {
 
         try (InputStream inputStream = DatabaseConfig.class.getClassLoader()
                 .getResourceAsStream(CONFIG_FILE)) {
+            /*
+             * application.properties se carga desde el classpath para que funcione igual
+             * desde Maven, el IDE o un artefacto empaquetado.
+             */
             if (inputStream == null) {
                 throw new IllegalStateException("No se ha encontrado el archivo " + CONFIG_FILE);
             }
@@ -23,7 +31,7 @@ public final class DatabaseConfig {
             properties.load(inputStream);
             return properties;
         } catch (IOException e) {
-            throw new IllegalStateException("Error al cargar la configuracion de la aplicacion", e);
+            throw new IllegalStateException("Error al cargar la configuración de la aplicación", e);
         }
     }
 

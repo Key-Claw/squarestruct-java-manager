@@ -2,6 +2,10 @@ package com.squarestruct.domain.model;
 
 import java.util.List;
 
+/*
+ * Entidad de dominio que agrupa bloques constructivos reutilizables.
+ * Será la base para plantillas que puedan alimentar presupuestos o futuras integraciones IFC.
+ */
 public class PlantillaConstructiva {
 
     private Long id;

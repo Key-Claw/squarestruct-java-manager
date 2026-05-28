@@ -1,4 +1,3 @@
-// Pruebas unitarias del servicio de presupuestos con escenarios de negocio aislados.
 package com.squarestruct.application.service;
 
 import com.squarestruct.domain.enums.TipoProducto;
@@ -23,6 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/*
+ * Pruebas unitarias del servicio de presupuestos con escenarios de negocio aislados.
+ */
 class PresupuestoServiceTest {
 
     private final PresupuestoService presupuestoService = new PresupuestoService();
@@ -72,7 +74,7 @@ class PresupuestoServiceTest {
     }
 
     @Test
-    @DisplayName("calcula subtotales por linea y total del presupuesto")
+    @DisplayName("calcula subtotales por línea y total del presupuesto")
     void calcularPresupuestoCalculaLineasYTotal() {
         Producto bloque = crearProducto(1L, "Bloque Eco H80 Max", 114.0);
         Producto pilar = crearProducto(2L, "Pilar H80 Refuerzo", 210.0);
@@ -91,7 +93,7 @@ class PresupuestoServiceTest {
     }
 
     @Test
-    @DisplayName("calcula una linea de producto")
+    @DisplayName("calcula una línea de producto")
     void calcularLineaCalculaSubtotalDeProductoYCantidad() {
         Producto bloque = crearProducto(1L, "Bloque Eco H80 Max", 114.0);
 
@@ -114,7 +116,7 @@ class PresupuestoServiceTest {
     }
 
     @Test
-    @DisplayName("rechaza precios negativos en el calculo")
+    @DisplayName("rechaza precios negativos en el cálculo")
     void calcularPresupuestoConPrecioNegativoLanzaExcepcion() {
         Producto bloque = crearProducto(1L, "Bloque Eco H80 Max", -1.0);
         List<PresupuestoDetalle> detalles = Collections.singletonList(
@@ -194,7 +196,7 @@ class PresupuestoServiceTest {
                 "Producto para presupuesto",
                 precio,
                 TipoProducto.BLOQUE,
-                "Plastico reciclable",
+                "Plástico reciclable",
                 20.0,
                 20.0,
                 80.0,

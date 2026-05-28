@@ -1,14 +1,28 @@
-# GitHub Actions CI - Maven Build
+# GitHub Actions CI
 
-## Descripción
+El repositorio incluye un flujo de integración continua para validar el proyecto Maven.
 
-Se ha configurado un workflow de Integración Continua utilizando GitHub Actions para automatizar la validación básica del proyecto `squarestruct-java-manager`.
-
-El objetivo principal es comprobar que el proyecto Maven puede validarse, compilarse y ejecutar sus tests correctamente antes de integrar cambios en ramas principales como `dev` o `main`.
-
-## Archivo del workflow
-
-El workflow se encuentra en la siguiente ruta:
+## Archivo
 
 ```text
 .github/workflows/maven-ci.yml
+```
+
+## Cuándo se ejecuta
+
+El flujo se lanza en:
+
+- `push` a `dev` o `main`;
+- `pull_request` hacia `dev` o `main`.
+
+## Pasos
+
+La canalización usa JDK 17 con distribución Temurin y ejecuta:
+
+```bash
+mvn validate
+mvn compile
+mvn test
+```
+
+Esto comprueba que el proyecto Maven es válido, compila correctamente y supera el conjunto de pruebas JUnit 5.

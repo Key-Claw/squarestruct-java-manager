@@ -12,6 +12,10 @@ import com.squarestruct.manager.config.DatabaseConfig;
 import com.squarestruct.manager.ui.menu.MainMenu;
 import java.util.Properties;
 
+/*
+ * Punto de entrada y raíz de composición.
+ * Construye repositorios y servicios a partir de la configuración antes de entregar el control al menú.
+ */
 public class Main {
 
     public static void main(String[] args) {

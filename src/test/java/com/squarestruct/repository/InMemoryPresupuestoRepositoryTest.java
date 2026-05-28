@@ -10,6 +10,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+ * Pruebas de comportamiento CRUD básico sobre una estructura en memoria de presupuestos.
+ */
 class InMemoryPresupuestoRepositoryTest {
 
     private final Map<Long, Presupuesto> presupuestos = new HashMap<>();

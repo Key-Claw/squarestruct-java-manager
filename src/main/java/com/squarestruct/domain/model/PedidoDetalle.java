@@ -1,5 +1,9 @@
 package com.squarestruct.domain.model;
 
+/*
+ * Línea de pedido con producto, cantidad y subtotal.
+ * Es el detalle económico que compone el total de un pedido.
+ */
 public class PedidoDetalle {
 
     private Long id;

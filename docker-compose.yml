@@ -1,0 +1,2 @@
+# Archivo reservado para levantar servicios locales de infraestructura.
+# Actualmente no define contenedores; la configuración MySQL se documenta en docs/architecture/mysql-persistence.md.

@@ -1,4 +1,3 @@
-// Pruebas unitarias del servicio de plantillas constructivas con validaciones mínimas.
 package com.squarestruct.application.service;
 
 import com.squarestruct.domain.model.BloquePlantilla;
@@ -12,6 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/*
+ * Pruebas unitarias del servicio de plantillas constructivas con validaciones mínimas.
+ */
 class PlantillaServiceTest {
 
     private final PlantillaService plantillaService = new PlantillaService();
@@ -19,7 +21,7 @@ class PlantillaServiceTest {
     @Test
     @DisplayName("valida una plantilla correcta")
     void validarPlantillaConDatosValidosNoLanzaExcepcion() {
-        PlantillaConstructiva plantilla = new PlantillaConstructiva(1L, "Plantilla muro basico",
+        PlantillaConstructiva plantilla = new PlantillaConstructiva(1L, "Plantilla muro básico",
                 "Plantilla inicial", Collections.singletonList(new BloquePlantilla()));
 
         assertDoesNotThrow(() -> plantillaService.validarPlantilla(plantilla));
@@ -37,7 +39,7 @@ class PlantillaServiceTest {
     @Test
     @DisplayName("rechaza una plantilla sin bloques")
     void validarPlantillaSinBloquesLanzaExcepcion() {
-        PlantillaConstructiva plantilla = new PlantillaConstructiva(1L, "Plantilla muro basico",
+        PlantillaConstructiva plantilla = new PlantillaConstructiva(1L, "Plantilla muro básico",
                 "Plantilla inicial", Collections.emptyList());
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,

@@ -1,7 +1,3 @@
-/*
- * Repositorio en memoria de plantillas constructivas.
- * Mantiene plantillas temporales y busquedas sobre sus bloques.
- */
 package com.squarestruct.infrastructure.persistence.memory;
 
 import com.squarestruct.domain.enums.TipoProducto;
@@ -17,6 +13,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/*
+ * Repositorio en memoria de plantillas constructivas.
+ * Mantiene plantillas temporales y búsquedas sobre sus bloques.
+ */
 public class InMemoryPlantillaRepository extends InMemoryCrudRepository<PlantillaConstructiva>
         implements PlantillaRepository {
 
@@ -65,16 +65,16 @@ public class InMemoryPlantillaRepository extends InMemoryCrudRepository<Plantill
     }
 
     private static Map<Long, PlantillaConstructiva> seedData() {
-        Proveedor proveedor = new Proveedor(1L, "Plasticos renovables ByFusion",
+        Proveedor proveedor = new Proveedor(1L, "Plásticos renovables ByFusion",
                 "+18332925625", "https://byfusion.com/", true);
         Producto producto = new Producto(1L, "Bloque Eco H80 Max",
                 "Bloque eco modular de gran formato.", 114.00, TipoProducto.BLOQUE,
-                "Plastico reciclable", 20.00, 20.00, 80.00, proveedor);
+                "Plástico reciclable", 20.00, 20.00, 80.00, proveedor);
         BloquePlantilla bloque = new BloquePlantilla(1L, producto, 0, 0, 0, 4);
         Map<Long, PlantillaConstructiva> plantillas = new LinkedHashMap<>();
 
-        plantillas.put(1L, new PlantillaConstructiva(1L, "Plantilla muro basico",
-                "Plantilla inicial para pruebas de construccion.",
+        plantillas.put(1L, new PlantillaConstructiva(1L, "Plantilla muro básico",
+                "Plantilla inicial para pruebas de construcción.",
                 Collections.singletonList(bloque)));
         return plantillas;
     }

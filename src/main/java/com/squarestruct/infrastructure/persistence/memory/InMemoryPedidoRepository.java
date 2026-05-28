@@ -1,7 +1,3 @@
-/*
- * Repositorio en memoria de pedidos.
- * Guarda pedidos temporalmente y permite buscar por usuario, estado y fechas.
- */
 package com.squarestruct.infrastructure.persistence.memory;
 
 import com.squarestruct.domain.enums.EstadoPedido;
@@ -21,6 +17,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/*
+ * Repositorio en memoria de pedidos.
+ * Guarda pedidos temporalmente y permite buscar por usuario, estado y fechas.
+ */
 public class InMemoryPedidoRepository extends InMemoryCrudRepository<Pedido>
         implements PedidoRepository {
 
@@ -67,11 +67,11 @@ public class InMemoryPedidoRepository extends InMemoryCrudRepository<Pedido>
     private static Map<Long, Pedido> seedData() {
         Usuario usuario = new Usuario(1L, "Admin SquareStruct", "admin@sqst.com",
                 "password", RolUsuario.ADMIN);
-        Proveedor proveedor = new Proveedor(1L, "Plasticos renovables ByFusion",
+        Proveedor proveedor = new Proveedor(1L, "Plásticos renovables ByFusion",
                 "+18332925625", "https://byfusion.com/", true);
         Producto producto = new Producto(1L, "Bloque Eco H80 Max",
                 "Bloque eco modular de gran formato.", 114.00, TipoProducto.BLOQUE,
-                "Plastico reciclable", 20.00, 20.00, 80.00, proveedor);
+                "Plástico reciclable", 20.00, 20.00, 80.00, proveedor);
         PedidoDetalle detalle = new PedidoDetalle(1L, producto, 2, 228.00);
         Map<Long, Pedido> pedidos = new LinkedHashMap<>();
 

@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/*
+ * Verifica que la selección de persistencia se mantiene centralizada en RepositoryFactoryProvider.
+ */
 class RepositoryFactoryProviderTest {
 
     @Test

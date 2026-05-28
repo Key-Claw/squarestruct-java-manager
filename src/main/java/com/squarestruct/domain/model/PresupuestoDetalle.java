@@ -1,5 +1,9 @@
 package com.squarestruct.domain.model;
 
+/*
+ * Línea de presupuesto con producto, cantidad y subtotal calculado.
+ * Permite que el presupuesto conserve el detalle económico de cada producto incluido.
+ */
 public class PresupuestoDetalle {
 
     private Long id;

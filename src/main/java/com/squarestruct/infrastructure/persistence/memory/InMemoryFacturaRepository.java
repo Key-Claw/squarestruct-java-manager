@@ -1,7 +1,3 @@
-/*
- * Repositorio en memoria de facturas.
- * Implementa las busquedas de facturas sin usar infraestructura de base de datos.
- */
 package com.squarestruct.infrastructure.persistence.memory;
 
 import com.squarestruct.domain.enums.EstadoPedido;
@@ -19,6 +15,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/*
+ * Repositorio en memoria de facturas.
+ * Implementa las búsquedas de facturas sin usar infraestructura de base de datos.
+ */
 public class InMemoryFacturaRepository extends InMemoryCrudRepository<Factura>
         implements FacturaRepository {
 

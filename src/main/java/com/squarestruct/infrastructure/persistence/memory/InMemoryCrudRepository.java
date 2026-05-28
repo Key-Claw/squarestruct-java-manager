@@ -1,7 +1,3 @@
-/*
- * Implementacion base de CRUD en memoria.
- * Usa un mapa Java como almacenamiento temporal y no depende de MySQL ni JDBC.
- */
 package com.squarestruct.infrastructure.persistence.memory;
 
 import com.squarestruct.domain.repository.CrudRepository;
@@ -15,6 +11,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/*
+ * Implementación base de CRUD en memoria.
+ * Usa un mapa Java como almacenamiento temporal y no depende de MySQL ni JDBC.
+ */
 abstract class InMemoryCrudRepository<T> implements CrudRepository<T, Long> {
 
     private final Map<Long, T> storage = new LinkedHashMap<>();
@@ -22,6 +22,10 @@ abstract class InMemoryCrudRepository<T> implements CrudRepository<T, Long> {
 
     protected InMemoryCrudRepository(Map<Long, T> initialData) {
         if (initialData != null) {
+            /*
+             * Los datos semilla pueden traer IDs propios. Se respetan y se avanza la secuencia
+             * interna para que las nuevas entidades no colisionen con ellos.
+             */
             for (Map.Entry<Long, T> entry : initialData.entrySet()) {
                 Long id = Objects.requireNonNull(entry.getKey(), "El id inicial no puede ser null");
                 T entity = Objects.requireNonNull(entry.getValue(), "La entidad inicial no puede ser null");
@@ -38,6 +42,10 @@ abstract class InMemoryCrudRepository<T> implements CrudRepository<T, Long> {
 
         Long id = getId(entity);
         if (id == null) {
+            /*
+             * En memoria se simula el autoincremento de una base de datos asignando IDs
+             * cuando la entidad llega sin identificador.
+             */
             id = nextId++;
             setId(entity, id);
         } else {
@@ -119,6 +127,10 @@ abstract class InMemoryCrudRepository<T> implements CrudRepository<T, Long> {
             return false;
         }
 
+        /*
+         * Un límite nulo se interpreta como rango abierto para reutilizar la misma ayuda
+         * en búsquedas por fecha con inicio, fin o ambos valores.
+         */
         boolean afterStart = start == null || !value.isBefore(start);
         boolean beforeEnd = end == null || !value.isAfter(end);
         return afterStart && beforeEnd;

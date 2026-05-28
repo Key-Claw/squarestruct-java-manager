@@ -8,6 +8,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+ * Pruebas de comportamiento CRUD básico sobre una estructura en memoria de proveedores.
+ */
 class InMemoryProveedorRepositoryTest {
 
     private final Map<Long, Proveedor> proveedores = new HashMap<>();

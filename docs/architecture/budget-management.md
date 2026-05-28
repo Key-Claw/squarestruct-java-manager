@@ -1,115 +1,127 @@
-# Gestion de presupuestos
+# Gestión de presupuestos
 
-Este documento resume la implementacion de la issue #12, centrada en calcular presupuestos desde productos, cantidades y detalles de linea.
+Este documento describe cómo se calculan, validan y muestran los presupuestos en `squarestruct-java-manager`.
 
-## Que habia antes
+## Objetivo
 
-El proyecto ya tenia estas piezas relacionadas con presupuestos:
+El módulo de presupuestos permite construir un presupuesto a partir de productos y cantidades. El servicio calcula subtotales por línea, coste total y fecha de creación, y puede guardar el resultado si recibe un repositorio configurado.
 
-- `Presupuesto` en `com.squarestruct.domain.model`, con id, nombre de proyecto, lista de productos, coste total y fecha de creacion.
-- `PresupuestoRepository` en `com.squarestruct.domain.repository`, con CRUD y busquedas por proyecto, producto y rango de fechas.
-- `InMemoryPresupuestoRepository`, con un presupuesto semilla y busquedas en memoria.
-- `PresupuestoService`, pero solo validaba datos basicos del presupuesto y no calculaba subtotales ni total.
-- La consola ya mostraba el modulo de presupuestos, aunque sus acciones estaban marcadas como pendientes.
+## Modelo de dominio
 
-La principal carencia era que `Presupuesto` solo conocia productos sin cantidad. Por tanto no habia forma de representar lineas reales ni de centralizar el calculo de importes.
+Clases principales:
 
-## Que se ha creado o modificado
+- `Presupuesto`
+- `PresupuestoDetalle`
+- `Producto`
 
-Se ha anadido `PresupuestoDetalle` como modelo de dominio para representar cada linea del presupuesto:
+`PresupuestoDetalle` representa una línea del presupuesto:
 
-- producto
-- cantidad
-- subtotal
+- producto;
+- cantidad;
+- subtotal.
 
-`Presupuesto` se ha adaptado para incluir `List<PresupuestoDetalle>` y mantener la lista antigua de productos por compatibilidad con repositorios y tests existentes. Cuando un presupuesto antiguo solo tiene productos, `PresupuestoService` puede preparar un resumen con lineas de cantidad 1 sin mover el calculo al modelo.
+`Presupuesto` conserva una lista de productos por compatibilidad con código anterior, pero la representación preferente para cálculo es la lista de detalles.
 
-Se han creado DTOs especificos:
+## Servicio de aplicación
 
-- `PresupuestoDTO`
-- `PresupuestoDetalleDTO`
+La lógica vive en:
 
-Tambien se ha anadido `PresupuestoMapper` para preparar datos de salida sin exponer directamente el modelo de dominio en el resumen.
+```text
+com.squarestruct.application.service.PresupuestoService
+```
 
-`PresupuestoService` concentra ahora la logica de negocio:
+Responsabilidades principales:
 
-- `calcularPresupuesto`
-- `crearPresupuesto`
-- `calcularLinea`
-- `calcularSubtotal`
-- `mostrarResumen`
-- `mostrarResumenesGuardados`
-- validaciones de presupuesto, linea, producto, cantidad y precio
+- validar nombre de proyecto;
+- validar productos, cantidades y precios;
+- calcular subtotales;
+- calcular coste total;
+- crear presupuestos;
+- guardar presupuestos si existe repositorio;
+- mostrar resúmenes por consola.
 
-`InMemoryPresupuestoRepository` se ha ajustado para buscar presupuestos por producto usando los detalles cuando existan. La consola, desde el submenu de presupuestos, usa el servicio para listar resumenes guardados.
+Los repositorios no calculan importes. Solo guardan y consultan presupuestos.
 
-## Como se calcula el presupuesto
+## Cálculo
 
-El flujo principal es:
-
-1. La capa cliente prepara una lista de `PresupuestoDetalle` con productos y cantidades.
-2. `PresupuestoService.calcularPresupuesto` valida el nombre del proyecto y los detalles recibidos.
-3. Por cada detalle se llama a `calcularLinea`.
-4. `calcularLinea` calcula el subtotal como:
+Cada línea se calcula así:
 
 ```text
 subtotal = producto.precio * cantidad
 ```
 
-5. El total del presupuesto se calcula sumando todos los subtotales:
+El total se calcula sumando los subtotales:
 
 ```text
 costeTotal = suma(detalle.subtotal)
 ```
 
-6. El servicio devuelve un `Presupuesto` con fecha de creacion, detalles calculados y coste total.
+Flujo principal:
 
-Si el servicio tiene un `PresupuestoRepository`, `crearPresupuesto` guarda el presupuesto calculado. Si no lo tiene, devuelve el presupuesto calculado sin persistirlo, lo que permite usar el servicio en tests unitarios puros.
+1. La capa cliente prepara una lista de `PresupuestoDetalle`.
+2. `PresupuestoService.calcularPresupuesto` valida el nombre y las líneas.
+3. El servicio recalcula cada línea con `calcularLinea`.
+4. El servicio suma el total y asigna `LocalDate.now()`.
+5. El método devuelve un `Presupuesto` válido.
 
-## Validacion de cantidades y precios
+Si se llama a `crearPresupuesto` y el servicio tiene un `PresupuestoRepository`, el presupuesto se guarda. Si no hay repositorio, se devuelve calculado sin persistir.
 
-La validacion se hace antes de calcular:
+## Validaciones
 
-- El presupuesto no puede ser nulo.
-- El nombre del proyecto no puede ser nulo ni estar en blanco.
-- Debe existir al menos un producto o detalle.
-- Cada linea debe tener un producto.
-- La cantidad debe ser mayor que cero.
-- El precio del producto no puede ser negativo.
-- El subtotal y el coste total no pueden ser negativos.
-- La fecha de creacion no puede ser nula.
+El servicio rechaza:
 
-La regla sobre precios sigue el modelo actual, que usa `double` para importes en `Producto`, `PedidoDetalle` y `Presupuesto`. No se ha introducido `BigDecimal` para evitar una refactorizacion transversal fuera del alcance de la issue #12.
-## Decisiones de diseno
+- presupuesto nulo;
+- nombre de proyecto nulo o en blanco;
+- lista vacía de productos o detalles;
+- línea nula;
+- producto nulo;
+- cantidad menor o igual que cero;
+- precio negativo;
+- subtotal negativo;
+- coste total negativo;
+- fecha de creación nula.
 
-La nueva clase se llama `PresupuestoDetalle` para seguir el precedente de `PedidoDetalle`.
+El modelo usa `double` para importes porque es la decisión actual del proyecto en `Producto`, `PedidoDetalle` y `Presupuesto`. Cambiar a `BigDecimal` requeriría una refactorización transversal.
 
-El calculo vive en `PresupuestoService` porque es logica de aplicacion y debe quedar fuera del repositorio. Los repositorios guardan y consultan presupuestos, pero no calculan importes.
+## DTOs y salida
 
-Los DTOs se limitan al resumen del presupuesto y sus lineas. No sustituyen al modelo de dominio ni introducen una estructura paralela.
+Para mostrar resúmenes se usan:
 
-`Presupuesto` conserva `getProductos` y `setProductos` para no romper el contrato existente de `PresupuestoRepository` ni los datos semilla actuales. La nueva representacion preferente para calculo es `getDetalles`.
+- `PresupuestoDTO`
+- `PresupuestoDetalleDTO`
+- `PresupuestoMapper`
 
-## Encaje en el flujo general
+El mapeador prepara una salida con nombre de proyecto, fecha, líneas, precio unitario, cantidad, subtotal y total. La consola usa esta representación para listar presupuestos guardados.
 
-El flujo queda alineado con las capas actuales:
+## Persistencia
 
-- `domain.model`: contiene `Presupuesto`, `PresupuestoDetalle` y `Producto`.
-- `application.service`: centraliza calculo y validacion en `PresupuestoService`.
-- `application.dto` y `application.mapper`: preparan el resumen para salida.
-- `domain.repository`: mantiene el contrato de persistencia.
-- `infrastructure.persistence.memory`: implementa busquedas y almacenamiento temporal.
-- `manager.ui.menu`: muestra resumenes de presupuestos desde consola usando el servicio.
+El contrato está en:
 
-Con esto, presupuestos deja de ser una validacion aislada y pasa a funcionar como una parte real del dominio, preparada para persistencia en memoria y futura persistencia MySQL sin mover la logica de calculo.
-
-## Verificacion
-
-La verificacion se ha ejecutado con Maven 3.9.9 y JDK 17:
-
-```bash
-mvn -q -Dtest=PresupuestoServiceTest test
-mvn -q test
+```text
+com.squarestruct.domain.repository.PresupuestoRepository
 ```
 
-Ambos comandos finalizaron correctamente.
+La implementación disponible es:
+
+```text
+com.squarestruct.infrastructure.persistence.memory.InMemoryPresupuestoRepository
+```
+
+La implementación MySQL de presupuestos está pendiente. En modo MySQL, este agregado queda cubierto temporalmente por la alternativa en memoria vacía definida en `MySqlRepositoryFactory`.
+
+## Pruebas
+
+`PresupuestoServiceTest` cubre:
+
+- validaciones;
+- cálculo de líneas;
+- cálculo de total;
+- salida del resumen;
+- compatibilidad con presupuestos antiguos basados en lista de productos;
+- guardado mediante repositorio en memoria.
+
+Comando útil:
+
+```bash
+mvn -Dtest=PresupuestoServiceTest test
+```

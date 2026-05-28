@@ -1,6 +1,6 @@
--- Seeds para la base de datos de la tienda online de bloques modulares
+-- Datos semilla para la base de datos de la tienda online de bloques modulares.
 
--- Limpieza para permitir re-ejecutar este archivo sin errores de duplicados
+-- Limpieza para permitir re-ejecutar este archivo sin errores de duplicados.
 DELETE FROM pedidoDetalles;
 DELETE FROM pedidos;
 DELETE FROM productos;
@@ -19,7 +19,7 @@ VALUES
   (1, 'Plasticos renovables ByFusion', '+18332925625', 'https://byfusion.com/', 'Plasticos renovables', TRUE),
   (2, 'Hormigon Forpol Group', '+34977881287', 'https://www.forpol.es/prefabricados-hormigon/bloques-de-hormigon-forpolbloc/', 'Hormigon', TRUE);
 
--- Hash bcrypt de la contrasena temporal de ejemplo para usuarios seed. Cambiar antes de desplegar en AWS.
+-- Hash bcrypt de la contraseña temporal de ejemplo para usuarios semilla. Cambiar antes de desplegar en AWS.
 -- Usuario admin de demo: admin@sqst.com / Hola123!
 INSERT INTO usuarios (idUsuario, nombre, primerApellido, segundoApellido, email, contrasena, rol)
 VALUES
@@ -44,7 +44,7 @@ VALUES
   (19, 'Natalia', 'Flores', NULL, 'flores@gmail.com', '$2b$10$VSCt51JCe5d2kYdchOmB.uTTROriNQkZAlBxqTJMtNjA5F.QwjMPm', 'usuario'),
   (20, 'Pablo', 'Romero', 'Saez', 'romero@gmail.com', '$2b$10$VSCt51JCe5d2kYdchOmB.uTTROriNQkZAlBxqTJMtNjA5F.QwjMPm', 'usuario');
 
--- Productos
+-- Productos.
 INSERT INTO productos (idProducto, nombre, descripcion, precio, tipo, material, alto, ancho, largo, idProveedor)
 VALUES
   (1, 'Bloque Eco H80 Max', 'Bloque eco modular de gran formato para muros de contencion de tierras y cargas exigentes.', 114.00, 'bloque', 'Plastico reciclable', 20.00, 20.00, 80.00, 1),
@@ -83,7 +83,7 @@ VALUES
   (34, 'Bloque H40 Ajuste', 'Bloque de hormigon para ajustes de longitud en cerramientos perimetrales.', 36.00, 'bloque', 'Hormigon', 20.00, 20.00, 20.00, 2),
   (35, 'Pilar H40 Cerramiento', 'Pilar de hormigon para cerramientos; cuatro piezas alcanzan 240 cm.', 98.00, 'pilar', 'Hormigon', 60.00, 40.00, 40.00, 2),
   (36, 'Pilar H40 Ligero', 'Pilar de hormigon compacto para apoyos bajos y delimitaciones temporales.', 72.00, 'pilar', 'Hormigon', 60.00, 40.00, 40.00, 2);
--- Pedidos
+-- Pedidos.
 INSERT INTO pedidos (idPedido, fecha, total, estado, fechaCancelacion, direccionEnvio, metodoPago, idUsuario)
 VALUES
   (1, '2026-04-20 10:00:00', 306.00, 'pagado', NULL, 'Calle Falsa 123, Madrid', 'tarjeta', 2),
@@ -97,7 +97,7 @@ VALUES
   (9, '2026-04-28 09:50:00', 94.00, 'pendiente', NULL, 'Calle Roble 31, Granada', 'transferencia', 10),
   (10, '2026-04-29 13:25:00', 170.00, 'entregado', NULL, 'Avenida Solar 72, Murcia', 'tarjeta', 11);
 
--- PedidoDetalles
+-- Detalles de pedido.
 INSERT INTO pedidoDetalles (idPedido, idProducto, cantidad, precioUnitario)
 VALUES
   (1, 1, 1, 114.00),
@@ -145,8 +145,8 @@ VALUES
 -- de planos/editor 2D/3D de SquareStruct v3.
 --
 -- Actualmente NO integrado en:
--- - backend
--- - frontend
+-- - servidor principal
+-- - interfaz web
 -- - API REST
 -- - schema.sql operativo
 -- - seeds.sql operativo
@@ -178,7 +178,7 @@ INSERT INTO planos (
 (
     2,
     'Vivienda eco demo',
-    'Plano de prueba con materiales ecologicos.',
+    'Plano de prueba con materiales ecológicos.',
     120.00,
     2450.00,
     '{"version":"v3","bloques":[]}',

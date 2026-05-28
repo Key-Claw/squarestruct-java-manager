@@ -13,6 +13,10 @@ import com.squarestruct.infrastructure.persistence.memory.InMemoryPresupuestoRep
 import com.squarestruct.infrastructure.persistence.memory.InMemoryProductoRepository;
 import com.squarestruct.infrastructure.persistence.memory.InMemoryProveedorRepository;
 
+/*
+ * Fábrica completa para ejecución sin base de datos.
+ * El parámetro seedData permite arrancar con datos de demo o crear repositorios vacíos para pruebas.
+ */
 public class InMemoryRepositoryFactory implements RepositoryFactory {
 
     private final ProductoRepository productoRepository;

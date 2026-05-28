@@ -1,75 +1,98 @@
-# Tests unitarios de servicios - Issue #8
+# Pruebas del proyecto
 
-Documento de trabajo que resume la revisión de la capa de servicios, los criterios de prueba elegidos y el resultado final de la validación.
+Este documento resume la estrategia de pruebas actual de `squarestruct-java-manager`.
 
-## Estado inicial
+## Herramientas
 
-Antes de esta tarea, la capa de servicios del proyecto estaba muy poco desarrollada:
+El proyecto usa:
 
-- `ProductoService` y `PedidoService` solo validaban `null`.
-- `PresupuestoService` y `PlantillaService` solo imprimían un mensaje en consola.
-- No existía carpeta `src/test/java` ni dependencias de test en `pom.xml`.
-- No se estaba usando Mockito porque no había dependencias colaboradoras que aislar.
+- JUnit 5
+- Maven Surefire
+- Maven como punto de entrada para el conjunto de pruebas
 
-La arquitectura real ya estaba separada por capas en `application`, `domain`, `infrastructure` y `manager`, así que los tests debían seguir esa misma organización y no crear una estructura paralela.
+La configuración está en `pom.xml`.
 
-## Enfoque seguido
+## Ejecutar pruebas
 
-Se eligió un enfoque de tests unitarios puros, centrados en comportamiento observable:
+Suite completa:
 
-- cada servicio se instancia directamente en el test
-- no se usan repositorios, conexión a base de datos ni recursos externos
-- no se introduce Mockito porque la capa de servicios no depende de otros objetos todavía
-- los tests validan entradas correctas, casos erróneos y excepciones esperadas
+```bash
+mvn test
+```
 
-Para que la capa de servicios tuviera reglas de negocio testeables, se añadieron validaciones mínimas y coherentes con el dominio actual:
+Una clase concreta:
 
-- `ProductoService`: producto nulo, nombre vacío y precio negativo
-- `PedidoService`: pedido nulo e identificador no positivo
-- `PresupuestoService`: presupuesto nulo, proyecto vacío, lista de productos vacía, coste negativo y fecha nula
-- `PlantillaService`: plantilla nula, nombre vacío y bloques vacíos
+```bash
+mvn -Dtest=PresupuestoServiceTest test
+```
 
-## Cobertura añadida
+Un paquete o patrón concreto puede ejecutarse con las reglas habituales de Surefire:
 
-Se crearon estos tests:
+```bash
+mvn -Dtest=*ServiceTest test
+```
 
-- `ProductoServiceTest`
-- `PedidoServiceTest`
-- `PresupuestoServiceTest`
-- `PlantillaServiceTest`
+## Organización
 
-Cada uno cubre al menos:
+Las pruebas viven en:
 
-- un caso feliz
-- un caso de error por `null`
-- una validación de negocio relevante
-- una excepción con mensaje esperado
+```text
+src/test/java
+```
 
-## Dependencias y aislamiento
+Áreas cubiertas:
 
-En `pom.xml` se añadió:
+- `com.squarestruct.application.service`
+- `com.squarestruct.repository`
+- `com.squarestruct.infrastructure.persistence.factory`
+- `com.squarestruct.manager`
 
-- `org.junit.jupiter:junit-jupiter`
-- `maven-surefire-plugin` para ejecutar correctamente JUnit 5
+## Servicios
 
-No se añadió Mockito porque no hacía falta para este slice funcional. La capa de servicios quedó aislada mediante objetos de dominio/DTO construidos directamente dentro de cada test.
+Las pruebas de servicios validan reglas de aplicación y comportamiento observable:
 
-## Resultado final
+- productos: DTO nulo, nombre vacío y precio negativo;
+- pedidos: DTO nulo e identificador no positivo;
+- plantillas: plantilla nula, nombre vacío y bloques vacíos;
+- presupuestos: cálculo de líneas, subtotales, total, validaciones y salida de resumen.
 
-La verificación se ejecutó con Maven y el resultado fue correcto:
+`PresupuestoServiceTest` también cubre el guardado cuando el servicio recibe un `InMemoryPresupuestoRepository`.
 
-- 14 tests ejecutados
-- 0 fallos
-- 0 errores
-- build exitoso
+## Repositorios en memoria
 
-La validación se realizó con Maven 3.9.9 en un contenedor oficial porque la terminal local no tenía `mvn` instalado.
+Las pruebas de repositorio verifican operaciones básicas sobre datos en memoria y búsquedas relacionadas con los agregados. El modo en memoria permite probar sin MySQL ni recursos externos.
 
-## Flujo seguido
+Cuando un repositorio necesita partir vacío, se usa el constructor con `false`:
 
-1. Se revisó la arquitectura real, los contratos de repositorio, los DTOs y la capa de servicios.
-2. Se confirmó que la capa de servicios no tenía lógica de negocio real ni tests previos.
-3. Se añadió soporte de JUnit 5 en Maven.
-4. Se implementaron validaciones mínimas y testeables en los servicios.
-5. Se crearon tests unitarios independientes por servicio.
-6. Se ejecutó la suite con Maven y se verificó que todo pasa.
+```java
+new InMemoryPresupuestoRepository(false)
+```
+
+## Factory y arranque
+
+`RepositoryFactoryProviderTest` comprueba:
+
+- selección de `InMemoryRepositoryFactory`;
+- selección de `MySqlRepositoryFactory`;
+- valor por defecto `memory`;
+- rechazo de tipos de persistencia no soportados.
+
+`MainTest` comprueba que `Main.createMainMenu` construye el menú con la persistencia esperada y conecta los servicios con los repositorios correctos.
+
+## Base de datos en pruebas
+
+El conjunto de pruebas actual no requiere una base de datos MySQL levantada. Las pruebas de MySQL existentes comprueban selección y construcción de repositorios, no ejecución real de consultas JDBC contra una instancia externa.
+
+Si se añaden pruebas de integración MySQL en el futuro, deberían separarse claramente del conjunto de pruebas unitarias para no hacer obligatorio un servicio externo en cada ejecución local.
+
+## CI
+
+El flujo de GitHub Actions ejecuta:
+
+```bash
+mvn validate
+mvn compile
+mvn test
+```
+
+Más detalle en [GitHub Actions CI](github-actions-ci.md).

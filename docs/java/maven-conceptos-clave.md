@@ -7,8 +7,8 @@ Maven es una herramienta de automatización y gestión de proyectos Java.
 Permite:
 - gestionar dependencias automáticamente
 - compilar proyectos
-- ejecutar tests
-- generar builds (.jar / .war)
+- ejecutar pruebas
+- generar artefactos (`.jar` / `.war`)
 - mantener una estructura estándar
 
 ---
@@ -26,7 +26,7 @@ Aquí se define:
 - dependencias
 - versión de Java
 - plugins
-- configuración del build
+- configuración de construcción
 
 ---
 
@@ -94,19 +94,19 @@ Compilar proyecto:
 mvn compile
 ```
 
-Ejecutar tests:
+Ejecutar pruebas:
 
 ```bash
 mvn test
 ```
 
-Generar build:
+Generar el artefacto:
 
 ```bash
 mvn package
 ```
 
-Instalar build localmente:
+Instalar el artefacto localmente:
 
 ```bash
 mvn install

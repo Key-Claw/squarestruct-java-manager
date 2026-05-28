@@ -1,4 +1,3 @@
-// Servicio de aplicación para validar y calcular presupuestos.
 package com.squarestruct.application.service;
 
 import com.squarestruct.application.dto.PresupuestoDTO;
@@ -13,6 +12,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+/*
+ * Servicio de aplicación de presupuestos.
+ * Calcula líneas y totales fuera del repositorio para mantener la persistencia como detalle de infraestructura.
+ */
 public class PresupuestoService {
 
     private final PresupuestoRepository presupuestoRepository;
@@ -52,6 +55,10 @@ public class PresupuestoService {
     public Presupuesto crearPresupuesto(String nombreProyecto, List<PresupuestoDetalle> detalles) {
         Presupuesto presupuesto = calcularPresupuesto(nombreProyecto, detalles);
 
+        /*
+         * El repositorio es opcional para permitir cálculos puros en pruebas o flujos que solo necesitan
+         * el resumen sin persistirlo.
+         */
         if (presupuestoRepository == null) {
             return presupuesto;
         }
@@ -75,7 +82,7 @@ public class PresupuestoService {
 
         System.out.println("Resumen del presupuesto: " + presupuestoDTO.getNombreProyecto());
         System.out.println("Fecha: " + presupuestoDTO.getFechaCreacion());
-        System.out.println("Lineas:");
+        System.out.println("Líneas:");
 
         for (PresupuestoDetalleDTO detalleDTO : presupuestoDTO.getDetalles()) {
             System.out.println(String.format(
@@ -146,6 +153,10 @@ public class PresupuestoService {
             return presupuesto;
         }
 
+        /*
+         * Compatibilidad con presupuestos antiguos que solo guardaban productos.
+         * Para mostrarlos se genera una línea por producto con cantidad 1.
+         */
         List<PresupuestoDetalle> detallesCalculados = presupuesto.getProductos().stream()
                 .map(producto -> calcularLinea(producto, 1))
                 .collect(Collectors.toList());
@@ -173,7 +184,7 @@ public class PresupuestoService {
 
         detalles.forEach(detalle -> {
             if (detalle == null) {
-                throw new IllegalArgumentException("La linea del presupuesto no puede ser nula");
+                throw new IllegalArgumentException("La línea del presupuesto no puede ser nula");
             }
 
             validarLinea(detalle.getProducto(), detalle.getCantidad());
@@ -185,7 +196,7 @@ public class PresupuestoService {
 
         detalles.forEach(detalle -> {
             if (detalle.getSubtotal() < 0) {
-                throw new IllegalArgumentException("El subtotal de la linea no puede ser negativo");
+                throw new IllegalArgumentException("El subtotal de la línea no puede ser negativo");
             }
         });
     }

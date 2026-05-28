@@ -1,30 +1,36 @@
 # Capa de repositorios
 
-Este documento describe la capa de interfaces de repositorio y el flujo seguido para desacoplar la persistencia del dominio.
+Este documento explica el uso del patrón Repository en `squarestruct-java-manager`.
 
-## Punto de partida
+## Objetivo
 
-Antes de esta tarea, el proyecto tenia:
+Los repositorios aíslan la lógica de aplicación de la tecnología de persistencia. Un servicio debe poder trabajar con productos, pedidos o presupuestos sin saber si los datos vienen de memoria, MySQL u otra fuente futura.
 
-- Modelos de dominio en `com.squarestruct.domain.model`.
-- Enumerados de dominio en `com.squarestruct.domain.enums`.
-- DTOs y mappers en `com.squarestruct.application`.
-- Paquetes `config` y `connection` dentro de `com.squarestruct.manager`, todavia sin implementacion.
-- Dependencia Maven del conector MySQL, pero sin servicios ni DAOs usando JDBC directamente.
-
-La documentacion inicial mencionaba una arquitectura por capas con `dao`, `service`, `model` y `ui`, pero el codigo real ya habia empezado a organizarse alrededor de `domain` y `application`. Por eso la abstraccion de persistencia se ha colocado en el dominio, como contratos de repositorio, sin crear implementaciones concretas todavia.
-
-## Cambio realizado
-
-Se ha creado el paquete:
+Por eso los contratos viven en el dominio:
 
 ```text
 src/main/java/com/squarestruct/domain/repository
 ```
 
-Dentro de ese paquete se han definido los contratos:
+## Contrato común
 
-- `CrudRepository<T, ID>`
+`CrudRepository<T, ID>` define las operaciones comunes:
+
+```text
+create
+findById
+findAll
+update
+deleteById
+existsById
+```
+
+Las búsquedas que pueden no encontrar datos usan `Optional`. Las consultas con varios resultados devuelven `List`.
+
+## Repositorios específicos
+
+Cada agregado principal tiene su propio contrato:
+
 - `ProductoRepository`
 - `ProveedorRepository`
 - `PedidoRepository`
@@ -32,79 +38,63 @@ Dentro de ese paquete se han definido los contratos:
 - `PresupuestoRepository`
 - `PlantillaRepository`
 
-`CrudRepository<T, ID>` concentra las operaciones comunes:
+Estos contratos extienden `CrudRepository` y añaden consultas propias.
 
-- `create`
-- `findById`
-- `findAll`
-- `update`
-- `deleteById`
-- `existsById`
+## Consultas por agregado
 
-Las seis interfaces especificas extienden ese contrato comun y anaden busquedas propias del modelo actual.
+`ProductoRepository` permite buscar por nombre parcial, tipo, material y proveedor.
 
-## Busquedas especificas
+`ProveedorRepository` permite buscar por nombre de empresa parcial y estado de validación.
 
-`ProductoRepository` permite buscar por:
+`PedidoRepository` permite buscar por usuario, estado y rango de fechas.
 
-- nombre parcial
-- tipo de producto
-- material
-- proveedor
+`FacturaRepository` permite buscar por pedido asociado, método de pago y rango de fechas.
 
-`ProveedorRepository` permite buscar por:
+`PresupuestoRepository` permite buscar por nombre de proyecto, producto incluido y rango de fechas.
 
-- nombre de empresa parcial
-- estado de validacion
+`PlantillaRepository` permite buscar por nombre parcial y producto usado en bloques.
 
-`PedidoRepository` permite buscar por:
+## Implementaciones actuales
 
-- usuario
-- estado
-- rango de fechas
-
-`FacturaRepository` permite buscar por:
-
-- pedido asociado
-- metodo de pago
-- rango de fechas
-
-`PresupuestoRepository` permite buscar por:
-
-- nombre de proyecto parcial
-- producto incluido
-- rango de fechas
-
-`PlantillaRepository` permite buscar por:
-
-- nombre parcial
-- producto usado en sus bloques
-
-Estas busquedas salen de las relaciones y atributos ya presentes en los modelos (`Producto`, `Proveedor`, `Pedido`, `Factura`, `Presupuesto` y `PlantillaConstructiva`) y de las consultas previsibles del schema actual, como productos por proveedor o pedidos por usuario.
-
-## Decisiones de diseno
-
-Los repositorios son interfaces porque representan puertos de persistencia, no una tecnologia concreta.
-
-Las firmas trabajan con objetos del dominio, `Long` como identificador, `List` para colecciones y `Optional` cuando una busqueda puede no encontrar resultado unico.
-
-No se ha introducido ninguna dependencia a MySQL, JDBC, `Connection`, `ResultSet` ni clases equivalentes en la capa de repositorios. Esto evita que los servicios de aplicacion tengan que conocer la base de datos concreta cuando se creen.
-
-No se han creado implementaciones MySQL ni en memoria en esta tarea porque el objetivo de la issue es definir la abstraccion. Las implementaciones futuras podran vivir en paquetes separados, por ejemplo:
+Las interfaces no guardan datos por sí mismas. Las implementaciones concretas están en infraestructura:
 
 ```text
 com.squarestruct.infrastructure.persistence.memory
 com.squarestruct.infrastructure.persistence.mysql
 ```
 
-Ambas podran implementar las mismas interfaces y ser inyectadas en servicios sin cambiar la logica de negocio.
+Estado actual:
 
-## Estado final
+- memoria: implementada para productos, proveedores, pedidos, facturas, presupuestos y plantillas;
+- MySQL: implementado de forma real para productos;
+- MySQL para el resto de agregados: pendiente, con una alternativa temporal en memoria vacía desde `MySqlRepositoryFactory`.
 
-La capa queda preparada para que:
+## Uso desde servicios
 
-- La logica de servicio dependa de `ProductoRepository`, `PedidoRepository`, etc.
-- MySQL sea solo una implementacion posible.
-- Una implementacion en memoria pueda usarse para pruebas o desarrollo local.
-- Las operaciones CRUD sean homogeneas en todos los agregados principales.
-- Las busquedas especificas queden cerca del contrato de cada entidad.
+Los servicios reciben interfaces:
+
+```java
+public ProductoService(ProductoRepository productoRepository) {
+    this.productoRepository = productoRepository;
+}
+```
+
+No reciben implementaciones concretas. Esto mantiene estable la lógica de negocio cuando cambia la persistencia.
+
+## Decisiones de diseño
+
+Los repositorios pertenecen al dominio porque describen lo que la aplicación necesita consultar o guardar, no cómo lo hace técnicamente.
+
+Las implementaciones pertenecen a infraestructura porque usan detalles reemplazables: colecciones Java, JDBC, SQL, conexiones o cualquier mecanismo futuro.
+
+No se usa un paquete `dao` separado en el diseño actual. El papel que tradicionalmente podría tener un DAO queda cubierto por repositorios de infraestructura que implementan contratos de dominio.
+
+## Añadir un nuevo repositorio MySQL
+
+Para completar un agregado en MySQL:
+
+1. Mantener o ampliar el contrato en `domain.repository`.
+2. Crear `MySql...Repository` en `infrastructure.persistence.mysql`.
+3. Implementar CRUD y búsquedas con JDBC.
+4. Actualizar `MySqlRepositoryFactory` para devolver la implementación real.
+5. Cubrir el comportamiento con pruebas unitarias o de integración según el alcance.

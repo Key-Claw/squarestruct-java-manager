@@ -2,6 +2,10 @@ package com.squarestruct.domain.model;
 
 import com.squarestruct.domain.enums.TipoProducto;
 
+/*
+ * Entidad de dominio que describe un producto constructivo.
+ * Conecta precio, dimensiones, material, tipo y proveedor para pedidos y presupuestos.
+ */
 public class Producto {
 
     private Long id;

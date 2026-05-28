@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
+/*
+ * Comprueba la raíz de composición sin arrancar el bucle interactivo de consola.
+ */
 class MainTest {
 
     @Test

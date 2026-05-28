@@ -1,63 +1,95 @@
 # Persistencia MySQL
 
-Este documento resume la implementación realizada para la capa de persistencia MySQL del proyecto `squarestruct-java-manager`.
+Este documento resume la persistencia MySQL/MariaDB disponible en `squarestruct-java-manager`.
 
-## Punto de partida
+## Objetivo
 
-El proyecto ya cuenta con una arquitectura en capas. El dominio define contratos de repositorio en:
+La capa MySQL permite reemplazar repositorios en memoria por implementaciones JDBC sin cambiar servicios ni menú. Las interfaces siguen estando en `domain.repository` y los detalles SQL viven en infraestructura.
 
-`src/main/java/com/squarestruct/domain/repository`
+## Paquete
 
-Las implementaciones concretas de persistencia se colocan en la capa de infraestructura.
+La implementación actual está en:
 
-## Objetivos
+```text
+src/main/java/com/squarestruct/infrastructure/persistence/mysql
+```
 
-- Proveer una capa de persistencia desacoplada del dominio.
-- Centralizar la conexión JDBC contra MySQL.
-- Externalizar la configuración de conexión.
-- Implementar repositorios MySQL reales.
-- Mantener compatibilidad con la persistencia en memoria existente.
-
-## Organización de paquetes
-
-La implementación MySQL se añade en:
-
-`src/main/java/com/squarestruct/infrastructure/persistence/mysql`
-
-Actualmente incorpora:
+Clases disponibles:
 
 - `MySqlConnectionFactory`
 - `MySqlProductoRepository`
 
-Las interfaces de repositorio del dominio permanecen en:
+## Configuración
 
-`src/main/java/com/squarestruct/domain/repository`
+Las propiedades se cargan desde:
 
-Esto permite mantener separada la lógica de negocio de la infraestructura concreta.
+```text
+src/main/resources/application.properties
+```
 
-## MySqlConnectionFactory
-
-Se implementa una clase encargada de centralizar la creación de conexiones JDBC contra MySQL.
-
-Responsabilidades principales:
-
-- cargar `application.properties`
-- recuperar propiedades de conexión
-- validar configuración obligatoria
-- crear conexiones mediante `DriverManager`
-- gestionar errores de conexión
-
-Esto evita duplicar lógica JDBC dentro de cada repositorio.
-
-## Configuración externa
-
-La configuración de conexión se externaliza en:
-
-`src/main/resources/application.properties`
-
-Configuración utilizada:
+Ejemplo:
 
 ```properties
+persistence.type=mysql
 db.url=jdbc:mysql://localhost:3306/squarestruct?useSSL=false&serverTimezone=UTC
 db.user=root
 db.password=root
+```
+
+`MySqlConnectionFactory` valida `db.url`, `db.user` y `db.password`. Si falta una propiedad obligatoria, lanza `IllegalStateException`.
+
+## Preparar la base de datos
+
+El repositorio incluye archivos SQL:
+
+```text
+sql/schema.sql
+sql/seeds.sql
+```
+
+Flujo recomendado:
+
+```bash
+mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS squarestruct CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql -u root -p squarestruct < sql/schema.sql
+mysql -u root -p squarestruct < sql/seeds.sql
+```
+
+`schema.sql` crea las tablas principales (`usuarios`, `proveedores`, `productos`, `pedidos`, `pedidoDetalles`) y define una propuesta comentada para planos. `seeds.sql` carga datos iniciales de proveedores, usuarios, productos y pedidos.
+
+`docker-compose.yml` está presente pero no define servicios en el estado actual del repositorio.
+
+## Repositorio de productos
+
+`MySqlProductoRepository` implementa `ProductoRepository` con JDBC:
+
+- `create`
+- `findById`
+- `findAll`
+- `update`
+- `deleteById`
+- `existsById`
+- búsqueda por nombre parcial
+- búsqueda por tipo
+- búsqueda por material
+- búsqueda por proveedor
+
+La tabla usada es `productos`, con relación a `proveedores` mediante `idProveedor`.
+
+## Estado parcial de MySQL
+
+Solo productos tiene repositorio MySQL real. Los demás agregados (`Proveedor`, `Pedido`, `Factura`, `Presupuesto`, `PlantillaConstructiva`) todavía no tienen implementación JDBC propia.
+
+Para mantener el contrato completo de `RepositoryFactory`, `MySqlRepositoryFactory` delega temporalmente esos repositorios en una `InMemoryRepositoryFactory(false)`. Esto permite arrancar la aplicación con `persistence.type=mysql` sin afirmar que todo el sistema ya persiste en MySQL.
+
+## Ampliación esperada
+
+Para completar MySQL hay que implementar:
+
+- `MySqlProveedorRepository`
+- `MySqlPedidoRepository`
+- `MySqlFacturaRepository`
+- `MySqlPresupuestoRepository`
+- `MySqlPlantillaRepository`
+
+Cada implementación debe respetar su interfaz de dominio y después registrarse en `MySqlRepositoryFactory`.

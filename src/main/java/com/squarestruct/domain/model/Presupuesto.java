@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/*
+ * Entidad de dominio para presupuestos de proyecto.
+ * Mantiene compatibilidad con la lista antigua de productos y usa detalles para cálculos precisos.
+ */
 public class Presupuesto {
 
     private Long id;
@@ -44,6 +48,10 @@ public class Presupuesto {
     }
 
     public List<Producto> getProductos() {
+        /*
+         * Compatibilidad con datos antiguos: si solo existen detalles, se reconstruye la lista simple
+         * de productos para consumidores que todavía no trabajan con PresupuestoDetalle.
+         */
         if ((productos == null || productos.isEmpty()) && detalles != null) {
             return detalles.stream()
                     .filter(Objects::nonNull)

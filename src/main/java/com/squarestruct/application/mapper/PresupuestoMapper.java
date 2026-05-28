@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/*
+ * Mapeador de salida para resúmenes de presupuesto.
+ * Convierte líneas calculadas en DTOs listos para consola o futuras interfaces externas.
+ */
 public class PresupuestoMapper {
 
     private PresupuestoMapper() {

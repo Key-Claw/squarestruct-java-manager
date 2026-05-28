@@ -3,6 +3,10 @@ package com.squarestruct.application.dto;
 import java.time.LocalDate;
 import java.util.List;
 
+/*
+ * DTO de resumen de presupuesto.
+ * Agrupa cabecera, líneas calculadas y total para salida por consola o interfaces futuras.
+ */
 public class PresupuestoDTO {
 
     private Long id;

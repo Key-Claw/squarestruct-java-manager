@@ -1,4 +1,3 @@
-// Pruebas unitarias del servicio de productos, centradas en validaciones de entrada.
 package com.squarestruct.application.service;
 
 import com.squarestruct.application.dto.ProductoDTO;
@@ -9,6 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/*
+ * Pruebas unitarias del servicio de productos, centradas en validaciones de entrada.
+ */
 class ProductoServiceTest {
 
     private final ProductoService productoService = new ProductoService();

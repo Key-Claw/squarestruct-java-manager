@@ -4,6 +4,10 @@ import com.squarestruct.domain.enums.EstadoPedido;
 import java.time.LocalDate;
 import java.util.List;
 
+/*
+ * Entidad de dominio que representa un pedido realizado por un usuario.
+ * Agrupa líneas, estado, fecha y total para el flujo comercial básico.
+ */
 public class Pedido {
 
     private Long id;

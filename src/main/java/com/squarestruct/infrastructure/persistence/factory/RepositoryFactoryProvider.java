@@ -4,6 +4,10 @@ import com.squarestruct.manager.config.DatabaseConfig;
 import java.util.Locale;
 import java.util.Properties;
 
+/*
+ * Selector central de persistencia.
+ * Traduce application.properties a una fábrica concreta y evita decisiones de infraestructura en servicios.
+ */
 public final class RepositoryFactoryProvider {
 
     public static final String PERSISTENCE_TYPE_PROPERTY = "persistence.type";
@@ -23,6 +27,10 @@ public final class RepositoryFactoryProvider {
                 DEFAULT_PERSISTENCE_TYPE
         );
 
+        /*
+         * Se aceptan alias habituales para no propagar detalles de configuración
+         * fuera del punto central de selección de persistencia.
+         */
         return switch (normalize(persistenceType)) {
             case "memory", "inmemory", "in-memory" -> new InMemoryRepositoryFactory();
             case "mysql", "mariadb" -> new MySqlRepositoryFactory(properties);

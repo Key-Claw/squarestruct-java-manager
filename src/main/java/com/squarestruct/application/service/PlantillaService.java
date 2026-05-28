@@ -1,9 +1,12 @@
-// Servicio de aplicación para validar plantillas constructivas antes de su uso.
 package com.squarestruct.application.service;
 
 import com.squarestruct.domain.model.PlantillaConstructiva;
 import com.squarestruct.domain.repository.PlantillaRepository;
 
+/*
+ * Servicio de aplicación de plantillas constructivas.
+ * Protege las reglas mínimas del dominio antes de guardar o reutilizar una plantilla.
+ */
 public class PlantillaService {
 
     private final PlantillaRepository plantillaRepository;

@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <!-- Configuración principal de Maven para dependencias, compilación y ejecución de tests. -->
+    <!-- Configuración principal de Maven para dependencias, compilación y ejecución de pruebas. -->
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -11,7 +11,7 @@
     <artifactId>squarestruct-java-manager</artifactId>
     <version>1.0.0</version>
 
-    <!-- Configuración de propiedades para la compilación y ejecución de tests.-->
+    <!-- Propiedades compartidas por compilación, codificación y pruebas. -->
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -29,7 +29,7 @@
             <version>9.3.0</version>
         </dependency>
 
-    <!-- JUnit 5 para pruebas unitarias.-->
+    <!-- JUnit 5 para pruebas unitarias. -->
     <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>

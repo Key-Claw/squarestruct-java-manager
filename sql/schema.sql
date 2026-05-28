@@ -1,6 +1,6 @@
--- Inicia una transaccion ACID. Todo lo entre START TRANSACTION y COMMIT
+-- Inicia una transacción ACID. Todo lo entre START TRANSACTION y COMMIT
 -- se ejecuta como una unidad: o se completa todo o no se guarda nada.
--- Esto garantiza consistencia si hay errores durante la ejecucion del script.
+-- Esto garantiza consistencia si hay errores durante la ejecución del script.
 START TRANSACTION;
 
 DROP TABLE IF EXISTS pedidoDetalles;
@@ -17,7 +17,7 @@ CREATE TABLE usuarios (
   email VARCHAR(150) NOT NULL UNIQUE,
   contrasena VARCHAR(255) NOT NULL,
   rol VARCHAR(20) NOT NULL DEFAULT 'usuario',
-  creadoEn TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Fecha de insercion en la base de datos
+  creadoEn TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Fecha de inserción en la base de datos
   CONSTRAINT chkUsuarioRol CHECK (rol IN ('usuario', 'admin'))
 ) ENGINE=InnoDB;
 
@@ -29,14 +29,14 @@ CREATE TABLE proveedores (
   categoria VARCHAR(80) NOT NULL,
   validado BOOLEAN NOT NULL DEFAULT FALSE,
   creadoEn TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB; -- Fecha de insercion en la base de datos
+) ENGINE=InnoDB; -- Fecha de inserción en la base de datos
 
 CREATE TABLE productos (
   idProducto INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(150) NOT NULL,
   descripcion VARCHAR(500),
   precio DECIMAL(12, 2) NOT NULL,
-  tipo ENUM('bloque', 'pilar') NOT NULL, -- Tipo de producto para futuras funcionalidades especificas
+  tipo ENUM('bloque', 'pilar') NOT NULL, -- Tipo de producto para futuras funcionalidades específicas
   material VARCHAR(80) NOT NULL,
   alto DECIMAL(10, 2) NOT NULL,
   ancho DECIMAL(10, 2) NOT NULL,
@@ -96,14 +96,14 @@ CREATE TABLE pedidoDetalles (
     ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
--- Indices para optimizar las consultas que usan FOREIGN KEYS en WHERE o JOIN
--- Mejora el rendimiento de busquedas como: productos por idProveedor, pedidos por idUsuario, etc.
+-- Índices para optimizar las consultas que usan FOREIGN KEYS en WHERE o JOIN.
+-- Mejora el rendimiento de búsquedas como: productos por idProveedor, pedidos por idUsuario, etc.
 CREATE INDEX idxProductosIdProveedor ON productos (idProveedor);
 CREATE INDEX idxPedidosIdUsuario ON pedidos (idUsuario);
 CREATE INDEX idxDetallesIdProducto ON pedidoDetalles (idProducto);
 
--- COMMIT finaliza la transaccion y guarda TODOS los cambios realizados desde BEGIN
--- Si llega aqui sin errores, la BD quedara con todas las tablas e indices creados.
+-- COMMIT finaliza la transacción y guarda TODOS los cambios realizados desde BEGIN.
+-- Si llega aquí sin errores, la BD quedará con todas las tablas e índices creados.
 COMMIT;
 
 
@@ -115,8 +115,8 @@ COMMIT;
 -- 2D/3D de SquareStruct v3.
 --
 -- Actualmente NO integrada en:
--- - backend
--- - frontend
+-- - servidor principal
+-- - interfaz web
 -- - API REST
 -- - schema.sql operativo
 -- - seeds.sql operativo

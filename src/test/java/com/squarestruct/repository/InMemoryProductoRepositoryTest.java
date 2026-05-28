@@ -10,8 +10,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// Pruebas unitarias para la gestión de productos en memoria
-
+/*
+ * Pruebas de comportamiento CRUD básico sobre una estructura en memoria de productos.
+ */
 class InMemoryProductoRepositoryTest {
 
     private final Map<Long, Producto> productos = new HashMap<>();

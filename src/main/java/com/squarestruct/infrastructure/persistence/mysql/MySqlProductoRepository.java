@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// Implementación de ProductoRepository usando MySQL
+/*
+ * Implementación JDBC de ProductoRepository.
+ * Es el primer repositorio MySQL real; el resto de agregados se completa desde MySqlRepositoryFactory.
+ */
 public class MySqlProductoRepository implements ProductoRepository {
 
     private final MySqlConnectionFactory connectionFactory;
@@ -19,7 +22,6 @@ public class MySqlProductoRepository implements ProductoRepository {
         this.connectionFactory = connectionFactory;
     }
 
-    // Método para crear un nuevo producto en la base de datos
     @Override
     public Producto create(Producto producto) {
         String sql = """
@@ -54,7 +56,6 @@ public class MySqlProductoRepository implements ProductoRepository {
         }
     }
 
-    // Método para buscar un producto por su ID
     @Override
     public Optional<Producto> findById(Long id) {
         String sql = "SELECT * FROM productos WHERE idProducto = ?";
@@ -76,7 +77,6 @@ public class MySqlProductoRepository implements ProductoRepository {
         }
     }
 
-    // Método para listar todos los productos de la base de datos
     @Override
     public List<Producto> findAll() {
         String sql = "SELECT * FROM productos";
@@ -96,7 +96,6 @@ public class MySqlProductoRepository implements ProductoRepository {
         }
     }
 
-    // Método para actualizar un producto existente en la base de datos
     @Override
     public Producto update(Producto producto) {
         String sql = """
@@ -126,7 +125,6 @@ public class MySqlProductoRepository implements ProductoRepository {
         }
     }
 
-    // Método para eliminar un producto por su ID
     @Override
     public void deleteById(Long id) {
         String sql = "DELETE FROM productos WHERE idProducto = ?";
@@ -141,32 +139,27 @@ public class MySqlProductoRepository implements ProductoRepository {
         }
     }
 
-    // Método para verificar si un producto existe por su ID
     @Override
     public boolean existsById(Long id) {
         return findById(id).isPresent();
     }
 
-    // Método para buscar productos cuyo nombre contenga un texto específico
     @Override
     public List<Producto> findByNombreContaining(String nombre) {
         return findByCampoTexto("nombre", nombre);
     }
 
-    // Método para buscar productos por su tipo
     @Override
     public List<Producto> findByTipo(TipoProducto tipo) {
         String sql = "SELECT * FROM productos WHERE tipo = ?";
         return findByParameter(sql, tipo.name());
     }
 
-    // Método para buscar productos por su material
     @Override
     public List<Producto> findByMaterial(String material) {
         return findByCampoTexto("material", material);
     }
 
-    // Método para buscar productos por el ID de su proveedor
     @Override
     public List<Producto> findByProveedorId(Long proveedorId) {
         String sql = "SELECT * FROM productos WHERE idProveedor = ?";
@@ -189,8 +182,11 @@ public class MySqlProductoRepository implements ProductoRepository {
         }
     }
 
-    // Método auxiliar para buscar productos por campos de texto usando LIKE
     private List<Producto> findByCampoTexto(String campo, String valor) {
+        /*
+         * El nombre de columna no viene de entrada de usuario: solo se invoca con campos internos
+         * controlados por el repositorio.
+         */
         String sql = "SELECT * FROM productos WHERE " + campo + " LIKE ?";
         return findByParameter(sql, "%" + valor + "%");
     }
@@ -215,8 +211,11 @@ public class MySqlProductoRepository implements ProductoRepository {
         }
     }
 
-    // Método para mapear un ResultSet a un objeto Producto
     private Producto mapToProducto(ResultSet resultSet) throws SQLException {
+        /*
+         * El esquema solo guarda la clave foránea del proveedor en productos. Se hidrata un Proveedor mínimo
+         * con id para mantener la relación sin hacer un JOIN innecesario en estas consultas.
+         */
         Proveedor proveedor = new Proveedor();
         proveedor.setId(resultSet.getLong("idProveedor"));
 

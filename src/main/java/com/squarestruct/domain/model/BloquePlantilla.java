@@ -1,5 +1,9 @@
 package com.squarestruct.domain.model;
 
+/*
+ * Bloque individual dentro de una plantilla constructiva.
+ * Relaciona un producto con su posición tridimensional y la cantidad necesaria.
+ */
 public class BloquePlantilla {
 
     private Long id;

@@ -195,19 +195,19 @@ Compilar el proyecto:
 mvn compile
 ```
 
-Ejecutar tests:
+Ejecutar pruebas:
 
 ```powershell
 mvn test
 ```
 
-Generar el build:
+Generar el artefacto:
 
 ```powershell
 mvn package
 ```
 
-Instalar el build en el repositorio local:
+Instalar el artefacto en el repositorio local:
 
 ```powershell
 mvn install

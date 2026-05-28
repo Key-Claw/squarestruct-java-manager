@@ -13,6 +13,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+ * Pruebas de comportamiento CRUD básico sobre una estructura en memoria de pedidos.
+ */
 class InMemoryPedidoRepositoryTest {
 
     private final Map<Long, Pedido> pedidos = new HashMap<>();

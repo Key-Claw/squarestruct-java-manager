@@ -6,7 +6,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-// Fabrica de conexiones para MySQL que carga la configuracion desde un archivo properties.
+/*
+ * Fábrica de conexiones JDBC.
+ * Lee la configuración externa y deja a los repositorios solo la responsabilidad de ejecutar SQL.
+ */
 public class MySqlConnectionFactory {
 
     private final String url;
@@ -25,6 +28,10 @@ public class MySqlConnectionFactory {
 
     public Connection getConnection() {
         try {
+            /*
+             * Cada llamada abre una conexión nueva. Los repositorios la cierran con try-with-resources
+             * alrededor de cada operación JDBC.
+             */
             return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             throw new IllegalStateException("Error al conectar con la base de datos MySQL", e);

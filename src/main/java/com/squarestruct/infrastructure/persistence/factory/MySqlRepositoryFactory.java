@@ -10,9 +10,17 @@ import com.squarestruct.infrastructure.persistence.mysql.MySqlConnectionFactory;
 import com.squarestruct.infrastructure.persistence.mysql.MySqlProductoRepository;
 import java.util.Properties;
 
+/*
+ * Fábrica MySQL parcial.
+ * Productos usa JDBC real; los agregados pendientes delegan temporalmente en memoria vacía.
+ */
 public class MySqlRepositoryFactory implements RepositoryFactory {
 
     private final ProductoRepository productoRepository;
+    /*
+     * Alternativa temporal sin datos semilla para mantener estable el contrato de RepositoryFactory mientras
+     * se implementan los repositorios JDBC restantes.
+     */
     private final RepositoryFactory fallbackRepositoryFactory;
 
     public MySqlRepositoryFactory() {

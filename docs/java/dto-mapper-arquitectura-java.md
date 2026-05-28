@@ -1,229 +1,94 @@
-# DTOs y Mappers — Conceptos básicos de arquitectura Java
+# DTOs y mapeadores
 
-## ¿Qué hemos hecho?
+Este documento explica el uso de DTOs y mapeadores dentro de la arquitectura Java del proyecto.
 
-En esta parte del proyecto se ha creado la primera separación real de capas dentro de la arquitectura Java.
+## Qué es un DTO
 
-Antes únicamente existía la capa:
+Un DTO (`Data Transfer Object`) es un objeto sencillo para transportar datos entre capas. En este proyecto se usa para mover información de forma controlada sin exponer siempre la entidad completa del dominio.
 
-```text
-domain
-```
+Un DTO contiene datos, constructores y métodos de lectura/escritura. No debe contener acceso a base de datos, cálculos complejos ni reglas de negocio.
 
-Ahora también existe:
+## DTOs actuales
 
-```text
-application
-├── dto
-└── mapper
-```
-
-Esto permite que el proyecto empiece a organizarse de una forma más profesional y escalable.
-
----
-
-# ¿Qué es un DTO?
-
-DTO significa:
+Los DTOs viven en:
 
 ```text
-Data Transfer Object
+src/main/java/com/squarestruct/application/dto
 ```
 
-Explicado de forma simple:
+Clases actuales:
+
+- `ProductoDTO`
+- `ProveedorDTO`
+- `PedidoDTO`
+- `PresupuestoDTO`
+- `PresupuestoDetalleDTO`
+
+`PresupuestoDTO` y `PresupuestoDetalleDTO` se usan para presentar resúmenes de presupuesto con líneas, cantidades, subtotales y total calculado.
+
+## Qué es un mapeador
+
+Un mapeador convierte objetos entre capas. En este proyecto convierte principalmente entidades de dominio a DTOs.
+
+Ejemplo conceptual:
 
 ```text
-Un DTO es una caja o almacén de datos simples.
+Producto -> ProductoMapper -> ProductoDTO
 ```
 
-Sirve para:
-- mover información entre capas,
-- transportar datos,
-- evitar exponer directamente las entidades reales del dominio.
-
----
-
-## Idea básica
+Los mapeadores viven en:
 
 ```text
-DTO = almacén de datos
+src/main/java/com/squarestruct/application/mapper
 ```
 
-Un DTO normalmente contiene:
-- atributos,
-- constructores,
-- getters,
-- setters.
+Clases actuales:
 
-Y normalmente NO contiene:
-- lógica de negocio,
-- cálculos,
-- conexiones,
-- funcionalidades complejas.
+- `ProductoMapper`
+- `ProveedorMapper`
+- `PedidoMapper`
+- `PresupuestoMapper`
 
----
+## Relación con el dominio
 
-# ¿Qué es un Mapper?
+El dominio mantiene entidades ricas para representar el negocio:
 
-El mapper es el encargado de convertir objetos.
+- `Producto`
+- `Proveedor`
+- `Pedido`
+- `Factura`
+- `Presupuesto`
+- `PresupuestoDetalle`
+- `PlantillaConstructiva`
 
----
+Los DTOs no sustituyen a estas entidades. Sirven como representación de entrada o salida cuando una capa no necesita todo el objeto de dominio.
 
-## Idea básica
+## Uso desde servicios
 
-```text
-Mapper = traductor o camino
-```
+Los servicios de aplicación trabajan con DTOs en validaciones sencillas y con modelos de dominio cuando el caso de uso necesita reglas propias del dominio.
 
-Convierte:
+Ejemplos actuales:
 
-```text
-Entidad real -> DTO
-```
+- `ProductoService.validarProducto(ProductoDTO)` valida nombre y precio.
+- `PedidoService.validarPedido(PedidoDTO)` valida identificador.
+- `PresupuestoService.mostrarResumen(Presupuesto)` usa `PresupuestoMapper` para preparar la salida por consola.
 
-Ejemplo:
+## Reglas prácticas
 
-```text
-Producto
-↓
-ProductoMapper
-↓
-ProductoDTO
-```
+Usar DTO cuando:
 
-El mapper:
-- recibe una entidad real,
-- extrae sus datos,
-- crea un DTO limpio.
+- la capa de entrada o salida solo necesita una parte del modelo;
+- se quiere evitar exponer directamente una entidad completa;
+- se prepara una respuesta para consola, API futura o interfaz externa;
+- se necesita una estructura estable para transferir datos.
 
----
+Usar entidad de dominio cuando:
 
-# ¿Qué son las entidades?
+- se ejecuta lógica de negocio;
+- se necesita navegar relaciones del modelo;
+- se persiste o consulta mediante repositorios;
+- el caso de uso depende del comportamiento real del agregado.
 
-Las entidades representan los objetos principales del dominio de la aplicación.
+## Encaje arquitectónico
 
-Ejemplos:
-
-```text
-Producto
-Proveedor
-Pedido
-```
-
-Estas clases representan la información principal del sistema.
-
----
-
-# ¿Qué hace un constructor?
-
-El constructor es el método utilizado para crear objetos.
-
----
-
-## Idea básica
-
-```text
-Constructor = entrada o camino de creación
-```
-
-Ejemplo:
-
-```java
-new ProductoDTO(1L, "Bloque Modular", 29.99)
-```
-
-Eso crea un objeto ya inicializado con datos.
-
----
-
-# ¿Qué hace un getter?
-
-Un getter sirve para:
-- leer,
-- consultar,
-- mostrar datos.
-
-Ejemplo:
-
-```java
-producto.getNombre()
-```
-
-Significa:
-
-```text
-“dame el nombre”
-```
-
----
-
-# ¿Qué hace un setter?
-
-Un setter sirve para:
-- modificar,
-- cambiar,
-- actualizar datos.
-
-Ejemplo:
-
-```java
-producto.setNombre("Bloque")
-```
-
-Significa:
-
-```text
-“cambia el nombre”
-```
-
----
-
-# Resumen mental rápido
-
-```text
-constructor -> crea
-get -> muestra
-set -> modifica
-DTO -> almacena datos
-Mapper -> traduce objetos
-```
-
----
-
-# ¿Por qué es importante esta arquitectura?
-
-Separar capas permite:
-- mantener el código más limpio,
-- mejorar la organización,
-- facilitar el mantenimiento,
-- hacer el proyecto más escalable,
-- aproximarse a una arquitectura Java profesional.
-
----
-
-# Organización actual
-
-```text
-src/main/java/com.squarestruct
-├── application
-│   ├── dto
-│   └── mapper
-├── domain
-│   ├── enums
-│   └── model
-```
-
----
-
-# Conceptos aprendidos
-
-Durante esta parte del proyecto se han trabajado:
-- encapsulación básica,
-- getters y setters,
-- constructores,
-- separación por capas,
-- DTOs,
-- mappers,
-- organización arquitectónica en Java,
-- generación automática de métodos mediante IntelliJ IDEA,
-- estructura básica de una aplicación Java profesional.
+La ubicación de DTOs y mapeadores en `application` evita que el dominio dependa de necesidades de presentación. Si en el futuro aparece una API REST o integración con SquareStruct web, podrán añadirse DTOs específicos sin modificar las entidades principales.

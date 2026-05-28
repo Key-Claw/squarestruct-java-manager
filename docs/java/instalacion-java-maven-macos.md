@@ -123,19 +123,19 @@ Compilar proyecto:
 mvn compile
 ```
 
-Ejecutar tests:
+Ejecutar pruebas:
 
 ```bash
 mvn test
 ```
 
-Generar build:
+Generar el artefacto:
 
 ```bash
 mvn package
 ```
 
-Instalar build local:
+Instalar el artefacto local:
 
 ```bash
 mvn install

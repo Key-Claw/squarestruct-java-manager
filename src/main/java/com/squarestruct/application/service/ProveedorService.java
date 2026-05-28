@@ -3,6 +3,10 @@ package com.squarestruct.application.service;
 import com.squarestruct.application.dto.ProveedorDTO;
 import com.squarestruct.domain.repository.ProveedorRepository;
 
+/*
+ * Servicio de aplicación de proveedores.
+ * Centraliza validaciones y conserva el punto de inyección del repositorio para futuras operaciones CRUD.
+ */
 public class ProveedorService {
 
     private final ProveedorRepository proveedorRepository;

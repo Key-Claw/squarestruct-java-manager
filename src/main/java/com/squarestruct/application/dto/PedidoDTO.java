@@ -1,5 +1,8 @@
 package com.squarestruct.application.dto;
 
+/*
+ * DTO mínimo de pedido usado por la capa de aplicación para validaciones simples.
+ */
 public class PedidoDTO {
 
     private Long id;

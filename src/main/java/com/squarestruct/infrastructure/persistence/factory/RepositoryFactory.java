@@ -7,6 +7,10 @@ import com.squarestruct.domain.repository.PresupuestoRepository;
 import com.squarestruct.domain.repository.ProductoRepository;
 import com.squarestruct.domain.repository.ProveedorRepository;
 
+/*
+ * Contrato de construcción de repositorios.
+ * Main trabaja con esta interfaz para no depender de memoria, MySQL u otra infraestructura futura.
+ */
 public interface RepositoryFactory {
 
     ProductoRepository productoRepository();

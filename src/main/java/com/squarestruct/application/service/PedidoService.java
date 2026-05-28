@@ -1,9 +1,12 @@
-// Servicio de aplicación para validar pedidos y asegurar reglas mínimas de negocio.
 package com.squarestruct.application.service;
 
 import com.squarestruct.application.dto.PedidoDTO;
 import com.squarestruct.domain.repository.PedidoRepository;
 
+/*
+ * Servicio de aplicación de pedidos.
+ * Valida reglas mínimas antes de que el flujo de consola o futuros casos de uso persistan cambios.
+ */
 public class PedidoService {
 
     private final PedidoRepository pedidoRepository;

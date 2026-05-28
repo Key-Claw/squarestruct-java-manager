@@ -1,6 +1,8 @@
 package com.squarestruct.application.dto;
 
-// Guarda datos de un producto para transferirlos entre capas sin exponer la entidad completa del producto.
+/*
+ * DTO mínimo de producto usado por servicios y mapeadores para transferir datos sin exponer la entidad completa.
+ */
 public class ProductoDTO {
 
     private Long id;

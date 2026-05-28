@@ -30,6 +30,10 @@ Usa colecciones Java y queda documentada en [Persistencia en memoria](inmemory-p
 La seleccion de persistencia se centraliza en `com.squarestruct.infrastructure.persistence.factory`.
 El detalle de `RepositoryFactory`, `InMemoryRepositoryFactory`, `MySqlRepositoryFactory` y `RepositoryFactoryProvider` queda documentado en [Factory de repositorios](repository-factory.md).
 
+## Gestion de presupuestos
+
+El calculo de presupuestos se centraliza en `PresupuestoService` y queda documentado en [Gestion de presupuestos](budget-management.md).
+
 ## Objetivo
 
 Centralizar funcionalidades administrativas y empresariales relacionadas con el ecosistema SquareStruct mediante una aplicación Java desacoplada del frontend principal.

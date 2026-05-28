@@ -79,8 +79,7 @@ La validacion se hace antes de calcular:
 - El subtotal y el coste total no pueden ser negativos.
 - La fecha de creacion no puede ser nula.
 
-La regla sobre precios sigue el modelo actual, que usa `double` para importes en `Producto`, `PedidoDetalle` y `Presupuesto`. No se ha introducido `BigDecimal` para evitar una refactorizacion transversal fuera del alcance de la issue.
-
+La regla sobre precios sigue el modelo actual, que usa `double` para importes en `Producto`, `PedidoDetalle` y `Presupuesto`. No se ha introducido `BigDecimal` para evitar una refactorizacion transversal fuera del alcance de la issue #12.
 ## Decisiones de diseno
 
 La nueva clase se llama `PresupuestoDetalle` para seguir el precedente de `PedidoDetalle`.

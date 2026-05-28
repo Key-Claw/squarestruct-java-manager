@@ -25,6 +25,11 @@ El detalle del flujo y las decisiones queda documentado en [Capa de repositorios
 La primera implementacion concreta de repositorios vive en `com.squarestruct.infrastructure.persistence.memory`.
 Usa colecciones Java y queda documentada en [Persistencia en memoria](inmemory-persistence.md).
 
+## Factory de repositorios
+
+La seleccion de persistencia se centraliza en `com.squarestruct.infrastructure.persistence.factory`.
+El detalle de `RepositoryFactory`, `InMemoryRepositoryFactory`, `MySqlRepositoryFactory` y `RepositoryFactoryProvider` queda documentado en [Factory de repositorios](repository-factory.md).
+
 ## Objetivo
 
 Centralizar funcionalidades administrativas y empresariales relacionadas con el ecosistema SquareStruct mediante una aplicación Java desacoplada del frontend principal.

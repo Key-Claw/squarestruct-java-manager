@@ -58,6 +58,7 @@ La aplicación reutiliza la estructura SQL principal del ecosistema SquareStruct
 ### Arquitectura
 
 - [Overview arquitectura](docs/architecture/overview.md)
+- [Factory de repositorios](docs/architecture/repository-factory.md)
 
 ### Java, Maven, Dto y Mapper
 

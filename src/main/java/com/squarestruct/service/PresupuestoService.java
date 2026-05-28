@@ -2,8 +2,19 @@
 package com.squarestruct.application.service;
 
 import com.squarestruct.domain.model.Presupuesto;
+import com.squarestruct.domain.repository.PresupuestoRepository;
 
 public class PresupuestoService {
+
+    private final PresupuestoRepository presupuestoRepository;
+
+    public PresupuestoService() {
+        this(null);
+    }
+
+    public PresupuestoService(PresupuestoRepository presupuestoRepository) {
+        this.presupuestoRepository = presupuestoRepository;
+    }
 
     public void validarPresupuesto() {
 
@@ -33,6 +44,10 @@ public class PresupuestoService {
             throw new IllegalArgumentException("La fecha de creación no puede ser nula");
         }
 
+    }
+
+    public PresupuestoRepository getPresupuestoRepository() {
+        return presupuestoRepository;
     }
 
 }

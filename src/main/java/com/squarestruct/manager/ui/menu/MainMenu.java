@@ -1,10 +1,51 @@
 package com.squarestruct.manager.ui.menu;
 
+import com.squarestruct.application.service.FacturaService;
+import com.squarestruct.application.service.PedidoService;
+import com.squarestruct.application.service.PlantillaService;
+import com.squarestruct.application.service.PresupuestoService;
+import com.squarestruct.application.service.ProductoService;
+import com.squarestruct.application.service.ProveedorService;
 import java.util.Scanner;
 
 public class MainMenu {
 
     private final Scanner scanner = new Scanner(System.in);
+    private final ProductoService productoService;
+    private final ProveedorService proveedorService;
+    private final PedidoService pedidoService;
+    private final FacturaService facturaService;
+    private final PresupuestoService presupuestoService;
+    private final PlantillaService plantillaService;
+    private final String persistenceType;
+
+    public MainMenu() {
+        this(
+                new ProductoService(),
+                new ProveedorService(),
+                new PedidoService(),
+                new FacturaService(),
+                new PresupuestoService(),
+                new PlantillaService(),
+                "sin configurar"
+        );
+    }
+
+    public MainMenu(ProductoService productoService,
+                    ProveedorService proveedorService,
+                    PedidoService pedidoService,
+                    FacturaService facturaService,
+                    PresupuestoService presupuestoService,
+                    PlantillaService plantillaService,
+                    String persistenceType) {
+        this.productoService = productoService;
+        this.proveedorService = proveedorService;
+        this.pedidoService = pedidoService;
+        this.facturaService = facturaService;
+        this.presupuestoService = presupuestoService;
+        this.plantillaService = plantillaService;
+        this.persistenceType = persistenceType;
+    }
 
     public void iniciar() {
         int opcion;
@@ -32,6 +73,7 @@ public class MainMenu {
         System.out.println("====================================");
         System.out.println("  SQUARESTRUCT JAVA MANAGER");
         System.out.println("====================================");
+        System.out.println("Persistencia: " + persistenceType);
         System.out.println("1. Gestión de productos");
         System.out.println("2. Gestión de proveedores");
         System.out.println("3. Gestión de pedidos");
@@ -72,6 +114,34 @@ public class MainMenu {
     private void mostrarFuncionalidadPendiente(String accion) {
         System.out.println("Funcionalidad pendiente: " + accion);
         System.out.println("Esta opción se conectará con la capa de servicios en futuras iteraciones.");
+    }
+
+    public ProductoService getProductoService() {
+        return productoService;
+    }
+
+    public ProveedorService getProveedorService() {
+        return proveedorService;
+    }
+
+    public PedidoService getPedidoService() {
+        return pedidoService;
+    }
+
+    public FacturaService getFacturaService() {
+        return facturaService;
+    }
+
+    public PresupuestoService getPresupuestoService() {
+        return presupuestoService;
+    }
+
+    public PlantillaService getPlantillaService() {
+        return plantillaService;
+    }
+
+    public String getPersistenceType() {
+        return persistenceType;
     }
 
     private int leerOpcion() {

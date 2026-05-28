@@ -6,6 +6,7 @@ package com.squarestruct.infrastructure.persistence.memory;
 
 import com.squarestruct.domain.enums.TipoProducto;
 import com.squarestruct.domain.model.Presupuesto;
+import com.squarestruct.domain.model.PresupuestoDetalle;
 import com.squarestruct.domain.model.Producto;
 import com.squarestruct.domain.model.Proveedor;
 import com.squarestruct.domain.repository.PresupuestoRepository;
@@ -60,11 +61,20 @@ public class InMemoryPresupuestoRepository extends InMemoryCrudRepository<Presup
     }
 
     private boolean containsProductoId(Presupuesto presupuesto, Long productoId) {
-        if (presupuesto.getProductos() == null) {
+        if (productoId == null) {
             return false;
         }
 
-        return presupuesto.getProductos().stream()
+        if (presupuesto.getDetalles() != null && !presupuesto.getDetalles().isEmpty()) {
+            return presupuesto.getDetalles().stream()
+                    .filter(Objects::nonNull)
+                    .map(PresupuestoDetalle::getProducto)
+                    .filter(Objects::nonNull)
+                    .anyMatch(producto -> Objects.equals(producto.getId(), productoId));
+        }
+
+        return presupuesto.getProductos() != null
+                && presupuesto.getProductos().stream()
                 .filter(Objects::nonNull)
                 .anyMatch(producto -> Objects.equals(producto.getId(), productoId));
     }

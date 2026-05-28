@@ -100,7 +100,7 @@ public class MainMenu {
             opcion = leerOpcion();
 
             switch (opcion) {
-                case 1 -> mostrarFuncionalidadPendiente("Listar " + modulo);
+                case 1 -> listarModulo(modulo);
                 case 2 -> mostrarFuncionalidadPendiente("Crear " + modulo);
                 case 3 -> mostrarFuncionalidadPendiente("Actualizar " + modulo);
                 case 4 -> mostrarFuncionalidadPendiente("Eliminar " + modulo);
@@ -109,6 +109,15 @@ public class MainMenu {
             }
 
         } while (opcion != 0);
+    }
+
+    private void listarModulo(String modulo) {
+        if ("presupuestos".equals(modulo)) {
+            presupuestoService.mostrarResumenesGuardados();
+            return;
+        }
+
+        mostrarFuncionalidadPendiente("Listar " + modulo);
     }
 
     private void mostrarFuncionalidadPendiente(String accion) {

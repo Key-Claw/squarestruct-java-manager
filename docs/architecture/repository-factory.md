@@ -102,7 +102,7 @@ Esto permite sustituir infraestructura sin tocar reglas de negocio.
 
 El codigo existente ya incluia `MySqlProductoRepository`. Por eso `MySqlRepositoryFactory` devuelve una implementacion JDBC real para productos.
 
-Los demas agregados todavia no tienen repositorios MySQL concretos en el proyecto actual. Para mantener el contrato completo de `RepositoryFactory` sin romper el arranque, `MySqlRepositoryFactory` delega temporalmente esos repositorios en una `InMemoryRepositoryFactory` vacia.
+Los demas agregados todavia no tienen repositorios MySQL concretos en el proyecto actual. Para mantener el contrato completo de `RepositoryFactory` sin romper el arranque, `MySqlRepositoryFactory` delega esos repositorios en una `InMemoryRepositoryFactory` vacia.
 
 Cuando se implementen `MySqlProveedorRepository`, `MySqlPedidoRepository`, `MySqlFacturaRepository`, `MySqlPresupuestoRepository` o `MySqlPlantillaRepository`, solo habra que cambiar `MySqlRepositoryFactory`. Los servicios seguiran igual porque ya dependen de interfaces.
 

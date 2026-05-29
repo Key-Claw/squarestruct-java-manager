@@ -74,6 +74,7 @@ public class PresupuestoService {
         PresupuestoDTO presupuestoDTO = PresupuestoMapper.toDTO(prepararPresupuestoParaResumen(presupuesto));
 
         System.out.println("Resumen del presupuesto: " + presupuestoDTO.getNombreProyecto());
+        System.out.println("ID: " + (presupuestoDTO.getId() != null ? presupuestoDTO.getId() : "sin asignar"));
         System.out.println("Fecha: " + presupuestoDTO.getFechaCreacion());
         System.out.println("Lineas:");
 

@@ -10,7 +10,7 @@ El proyecto ya tenia estas piezas relacionadas con presupuestos:
 - `PresupuestoRepository` en `com.squarestruct.domain.repository`, con CRUD y busquedas por proyecto, producto y rango de fechas.
 - `InMemoryPresupuestoRepository`, con un presupuesto semilla y busquedas en memoria.
 - `PresupuestoService`, pero solo validaba datos basicos del presupuesto y no calculaba subtotales ni total.
-- La consola ya mostraba el modulo de presupuestos, aunque sus acciones estaban marcadas como pendientes.
+- La consola ya mostraba el modulo de presupuestos, aunque todavia no ejecutaba acciones reales.
 
 La principal carencia era que `Presupuesto` solo conocia productos sin cantidad. Por tanto no habia forma de representar lineas reales ni de centralizar el calculo de importes.
 
@@ -41,7 +41,7 @@ Tambien se ha anadido `PresupuestoMapper` para preparar datos de salida sin expo
 - `mostrarResumenesGuardados`
 - validaciones de presupuesto, linea, producto, cantidad y precio
 
-`InMemoryPresupuestoRepository` se ha ajustado para buscar presupuestos por producto usando los detalles cuando existan. La consola, desde el submenu de presupuestos, usa el servicio para listar resumenes guardados.
+`InMemoryPresupuestoRepository` se ha ajustado para buscar presupuestos por producto usando los detalles cuando existan. La consola, desde el submenu de presupuestos, usa el servicio para listar, crear, actualizar y eliminar presupuestos con calculo real de lineas, subtotales y total.
 
 ## Como se calcula el presupuesto
 
@@ -80,6 +80,7 @@ La validacion se hace antes de calcular:
 - La fecha de creacion no puede ser nula.
 
 La regla sobre precios sigue el modelo actual, que usa `double` para importes en `Producto`, `PedidoDetalle` y `Presupuesto`. No se ha introducido `BigDecimal` para evitar una refactorizacion transversal fuera del alcance de la issue #12.
+
 ## Decisiones de diseno
 
 La nueva clase se llama `PresupuestoDetalle` para seguir el precedente de `PedidoDetalle`.
@@ -99,7 +100,7 @@ El flujo queda alineado con las capas actuales:
 - `application.dto` y `application.mapper`: preparan el resumen para salida.
 - `domain.repository`: mantiene el contrato de persistencia.
 - `infrastructure.persistence.memory`: implementa busquedas y almacenamiento temporal.
-- `manager.ui.menu`: muestra resumenes de presupuestos desde consola usando el servicio.
+- `manager.ui.menu`: coordina el CRUD de presupuestos desde consola usando el servicio y el repositorio configurado.
 
 Con esto, presupuestos deja de ser una validacion aislada y pasa a funcionar como una parte real del dominio, preparada para persistencia en memoria y futura persistencia MySQL sin mover la logica de calculo.
 

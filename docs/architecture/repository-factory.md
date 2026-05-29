@@ -9,7 +9,7 @@ El proyecto ya tenia una separacion clara entre contratos e implementaciones:
 - Las interfaces de repositorio estaban en `com.squarestruct.domain.repository`.
 - La persistencia en memoria estaba en `com.squarestruct.infrastructure.persistence.memory`.
 - La persistencia MySQL estaba iniciada en `com.squarestruct.infrastructure.persistence.mysql`.
-- Los servicios vivian en `com.squarestruct.application.service` y no debian depender de clases concretas de infraestructura.
+- Los servicios viven en `com.squarestruct.application.service` y no dependen de clases concretas de infraestructura.
 - `Main` creaba directamente el menu y no construia todavia el grafo de dependencias de la aplicacion.
 
 La seleccion de persistencia no estaba centralizada: no habia un punto unico que decidiera si usar memoria o MySQL.
@@ -68,15 +68,17 @@ Si no se informa `persistence.type`, `RepositoryFactoryProvider` usa `memory` co
 
 `Main` actua como composition root de la aplicacion:
 
-1. Carga la factory mediante `RepositoryFactoryProvider.getFactory()`.
-2. Pide repositorios a la factory.
-3. Crea los servicios pasando interfaces de repositorio.
-4. Entrega los servicios al `MainMenu`.
+1. Carga `application.properties` mediante `DatabaseConfig`.
+2. Carga la factory mediante `RepositoryFactoryProvider.getFactory(properties)`.
+3. Pide repositorios a la factory.
+4. Crea los servicios pasando interfaces de repositorio.
+5. Entrega los servicios al `MainMenu`.
 
 Ejemplo del flujo:
 
 ```java
-RepositoryFactory repositoryFactory = RepositoryFactoryProvider.getFactory();
+Properties properties = DatabaseConfig.load();
+RepositoryFactory repositoryFactory = RepositoryFactoryProvider.getFactory(properties);
 
 new ProductoService(repositoryFactory.productoRepository());
 new ProveedorService(repositoryFactory.proveedorRepository());
@@ -96,7 +98,7 @@ InMemoryRepositoryFactory
 MySqlRepositoryFactory
 ```
 
-Esto permite sustituir infraestructura sin tocar reglas de negocio.
+Esto permite sustituir infraestructura sin tocar reglas de negocio. La clase `DatabaseConfig` vive en `com.squarestruct.infrastructure.config` porque es soporte de configuracion de infraestructura, no parte del menu.
 
 ## Estado actual de MySQL
 

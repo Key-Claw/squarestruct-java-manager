@@ -37,9 +37,13 @@ Las interfaces de repositorio del dominio permanecen en:
 
 Esto permite mantener separada la lógica de negocio de la infraestructura concreta.
 
-## MySqlConnectionFactory
+## Configuracion y conexion
 
-Se implementa una clase encargada de centralizar la creación de conexiones JDBC contra MySQL.
+La lectura de `application.properties` se centraliza en:
+
+`src/main/java/com/squarestruct/infrastructure/config/DatabaseConfig.java`
+
+`MySqlConnectionFactory` usa esa configuracion para centralizar la creación de conexiones JDBC contra MySQL.
 
 Responsabilidades principales:
 
@@ -50,6 +54,8 @@ Responsabilidades principales:
 - gestionar errores de conexión
 
 Esto evita duplicar lógica JDBC dentro de cada repositorio.
+
+`MySqlProductoRepository` adapta el enum `TipoProducto` al formato usado por el schema SQL (`bloque`, `pilar`) al crear, actualizar y buscar productos por tipo.
 
 ## Configuración externa
 

@@ -35,7 +35,7 @@ Aquí se define:
 ```xml
 <groupId>com.squarestruct</groupId>
 <artifactId>squarestruct-java-manager</artifactId>
-<version>1.0-SNAPSHOT</version>
+<version>1.0.0</version>
 ```
 
 #### groupId
@@ -65,10 +65,10 @@ Versión actual del proyecto.
 
 Ejemplo:
 ```plaintext
-1.0-SNAPSHOT
+1.0.0
 ```
 
-`SNAPSHOT` indica que el proyecto sigue en desarrollo.
+En Maven, una version con `SNAPSHOT` indica desarrollo activo. Este proyecto usa `1.0.0` como version estable de entrega.
 
 ---
 

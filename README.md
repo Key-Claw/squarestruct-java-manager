@@ -11,8 +11,7 @@
 
 <h1 align="center">SquareStruct Java Manager</h1>
 
-Aplicación corporativa de consola en Java para la gestión interna de SquareStruct, diseñada como complemento del ecosistema principal. Está basada en arquitectura en capas, persistencia configurable en memoria o MariaDB/MySQL, y una estructura modular preparada para mantenimiento y escalabilidad.
-
+Aplicacion corporativa de consola en Java para la gestion interna de SquareStruct. El proyecto esta planteado como material de estudio y portfolio: usa arquitectura en capas, repositorios desacoplados, DTOs, mappers, servicios de aplicacion, persistencia en memoria y una primera integracion JDBC con MariaDB/MySQL.
 
 ## Repositorio relacionado
 
@@ -20,41 +19,71 @@ Frontend y backend principal del ecosistema SquareStruct:
 
 - [squarestruct-app](https://github.com/Key-Claw/squarestruct-app)
 
-
-## Tecnologías
+## Tecnologias
 
 - Java 17
 - Maven
+- JUnit 5
 - MariaDB/MySQL parcial mediante JDBC
-- Docker como mejora futura
+- GitHub Actions para CI
 - IntelliJ IDEA
 
-Docker queda previsto como mejora futura: `docker-compose.yml` existe, pero todavía no hay configuración operativa ni `Dockerfile`.
-
+Docker queda como mejora futura. El repositorio no incluye ahora mismo una configuracion Docker operativa.
 
 ## Arquitectura
 
-El proyecto sigue una arquitectura en capas basada en los paquetes actuales:
+El proyecto se organiza en cuatro capas principales:
 
-```plaintext
-com.squarestruct.manager
-com.squarestruct.application
-com.squarestruct.domain
-com.squarestruct.infrastructure
+```text
+com.squarestruct.manager          -> arranque y menu de consola
+com.squarestruct.application      -> servicios, DTOs y mappers
+com.squarestruct.domain           -> modelos, enums y contratos de repositorio
+com.squarestruct.infrastructure   -> configuracion y persistencia concreta
 ```
 
-`Main` actúa como punto de composición: carga la configuración, selecciona la `RepositoryFactory`, crea servicios y entrega el flujo interactivo a `MainMenu`.
+`Main` actua como punto de composicion: carga `application.properties`, selecciona la `RepositoryFactory`, crea los servicios con interfaces de repositorio y entrega el flujo interactivo a `MainMenu`.
 
+## Persistencia
 
-## Base de datos
+La persistencia se selecciona desde `src/main/resources/application.properties`:
 
-La aplicación reutiliza la estructura SQL principal del ecosistema SquareStruct mediante:
+```properties
+persistence.type=memory
+```
 
-- schema.sql
-- seeds.sql
+Valores soportados:
 
+- `memory`, `inmemory`, `in-memory`
+- `mysql`, `mariadb`
 
-## Documentación
+Con `memory`, todos los modulos usan repositorios en memoria con datos semilla. Con `mysql`, productos usa `MySqlProductoRepository`; el resto de modulos conservan repositorios en memoria vacios hasta que existan implementaciones JDBC propias.
+
+La base SQL de referencia esta en:
+
+- `sql/schema.sql`
+- `sql/seeds.sql`
+
+## Comandos
+
+Compilar:
+
+```bash
+mvn compile
+```
+
+Ejecutar tests:
+
+```bash
+mvn test
+```
+
+Ejecutar la aplicacion desde el IDE:
+
+```text
+com.squarestruct.manager.Main
+```
+
+## Documentacion
 
 ### Arquitectura
 
@@ -66,22 +95,22 @@ La aplicación reutiliza la estructura SQL principal del ecosistema SquareStruct
 - [Menu de consola](docs/architecture/console-menu.md)
 - [Gestion de presupuestos](docs/architecture/budget-management.md)
 
-### Java, Maven, Dto y Mapper
+### Java, Maven, DTOs y CI
 
 - [Conceptos clave de Maven](docs/java/maven-conceptos-clave.md)
-- [Instalación Java + Maven en Windows](docs/java/instalacion-java-maven-windows.md)
-- [Instalación Java + Maven en macOS](docs/java/instalacion-java-maven-macos.md)
-- [Dto y Mapper](docs/java/dto-mapper-arquitectura-java.md)
-
+- [Instalacion Java + Maven en Windows](docs/java/instalacion-java-maven-windows.md)
+- [Instalacion Java + Maven en macOS](docs/java/instalacion-java-maven-macos.md)
+- [DTO y Mapper](docs/java/dto-mapper-arquitectura-java.md)
+- [Tests unitarios de servicios](docs/java/tests-unitarios-servicios-issue-8.md)
+- [GitHub Actions CI](docs/java/github-actions-ci.md)
 
 ## Objetivo
 
-Crear una aplicación Java corporativa desacoplada del frontend principal de SquareStruct, enfocada en:
+Crear una aplicacion Java corporativa desacoplada del frontend principal de SquareStruct, enfocada en:
 
-- gestión interna
-- persistencia de datos
-- arquitectura escalable
-- conexión MySQL/MariaDB
-- dockerización futura
-- patrones de diseño
-- testing y mantenimiento
+- gestion interna por consola
+- separacion clara entre capas
+- persistencia configurable
+- patrones de repositorio y factory
+- testing unitario
+- documentacion tecnica mantenible

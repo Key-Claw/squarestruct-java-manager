@@ -101,10 +101,12 @@ Ambas podran implementar las mismas interfaces y ser inyectadas en servicios sin
 
 ## Estado final
 
-La capa queda preparada para que:
+En el estado actual del proyecto, la capa queda preparada para que:
 
 - La logica de servicio dependa de `ProductoRepository`, `PedidoRepository`, etc.
 - MySQL sea solo una implementacion posible.
 - Una implementacion en memoria pueda usarse para pruebas o desarrollo local.
 - Las operaciones CRUD sean homogeneas en todos los agregados principales.
 - Las busquedas especificas queden cerca del contrato de cada entidad.
+
+Las implementaciones en memoria ya existen para los agregados principales. En MySQL existe implementacion concreta para productos; el resto de agregados se mantienen desacoplados mediante sus contratos y el fallback definido en la factory de repositorios.

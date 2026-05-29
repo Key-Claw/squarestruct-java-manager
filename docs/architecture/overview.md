@@ -4,15 +4,14 @@ Este documento resume la estructura general de capas del proyecto y enlaza la do
 
 SquareStruct Java Manager sigue una arquitectura en capas orientada a separar responsabilidades dentro de la aplicación.
 
-## Capas principales
+## Paquetes principales
 
-- config
-- connection
-- dao
-- repository
-- service
-- model
-- ui
+- `com.squarestruct.manager`: punto de entrada, carga de configuracion y menu de consola.
+- `com.squarestruct.application`: servicios, DTOs y mappers de aplicacion.
+- `com.squarestruct.domain`: modelos, enumerados y contratos de repositorio.
+- `com.squarestruct.infrastructure`: implementaciones de persistencia y factories.
+
+El proyecto conserva algunos paquetes historicos como `manager.config` y `manager.connection`, pero el flujo actual se organiza alrededor de `manager`, `application`, `domain` e `infrastructure`.
 
 ## Repositorios
 
@@ -33,6 +32,14 @@ El detalle de `RepositoryFactory`, `InMemoryRepositoryFactory`, `MySqlRepository
 ## Gestion de presupuestos
 
 El calculo de presupuestos se centraliza en `PresupuestoService` y queda documentado en [Gestion de presupuestos](budget-management.md).
+
+## Menu de consola
+
+El flujo interactivo de `MainMenu` conecta los modulos administrativos con servicios y repositorios, segun se resume en [Menu de consola](console-menu.md).
+
+## Mejoras futuras
+
+Docker queda previsto como mejora futura. El repositorio contiene `docker-compose.yml`, pero todavia no existe una configuracion operativa ni un `Dockerfile`.
 
 ## Objetivo
 

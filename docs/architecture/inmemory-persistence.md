@@ -72,6 +72,14 @@ No se ha usado MySQL, JDBC, `Connection`, `ResultSet` ni ninguna clase de base d
 
 La base comun evita duplicar el CRUD en los seis repositorios y mantiene las diferencias en las busquedas especificas de cada contrato.
 
+Los tests de esta capa viven junto al paquete que validan:
+
+```text
+src/test/java/com/squarestruct/infrastructure/persistence/memory
+```
+
+Estos tests ejercitan los repositorios reales en lugar de estructuras auxiliares aisladas.
+
 ## Encaje arquitectonico
 
 La capa queda preparada para que un futuro servicio dependa de interfaces como:

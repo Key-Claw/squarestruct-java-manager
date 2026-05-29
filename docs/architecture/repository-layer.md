@@ -9,10 +9,10 @@ Antes de esta tarea, el proyecto tenia:
 - Modelos de dominio en `com.squarestruct.domain.model`.
 - Enumerados de dominio en `com.squarestruct.domain.enums`.
 - DTOs y mappers en `com.squarestruct.application`.
-- Paquetes `config` y `connection` dentro de `com.squarestruct.manager`, todavia sin implementacion.
+- Configuracion externa en `application.properties`.
 - Dependencia Maven del conector MySQL, pero sin servicios ni DAOs usando JDBC directamente.
 
-La documentacion inicial mencionaba una arquitectura por capas con `dao`, `service`, `model` y `ui`, pero el codigo real ya habia empezado a organizarse alrededor de `domain` y `application`. Por eso la abstraccion de persistencia se ha colocado en el dominio, como contratos de repositorio, sin crear implementaciones concretas todavia.
+La documentacion inicial mencionaba una arquitectura por capas con `dao`, `service`, `model` y `ui`, pero el codigo real ya habia empezado a organizarse alrededor de `domain`, `application`, `infrastructure` y `manager`. Por eso la abstraccion de persistencia se ha colocado en el dominio, como contratos de repositorio.
 
 ## Cambio realizado
 
@@ -90,14 +90,14 @@ Las firmas trabajan con objetos del dominio, `Long` como identificador, `List` p
 
 No se ha introducido ninguna dependencia a MySQL, JDBC, `Connection`, `ResultSet` ni clases equivalentes en la capa de repositorios. Esto evita que los servicios de aplicacion tengan que conocer la base de datos concreta cuando se creen.
 
-No se han creado implementaciones MySQL ni en memoria en esta tarea porque el objetivo de la issue es definir la abstraccion. Las implementaciones futuras podran vivir en paquetes separados, por ejemplo:
+Las implementaciones concretas viven fuera del dominio:
 
 ```text
 com.squarestruct.infrastructure.persistence.memory
 com.squarestruct.infrastructure.persistence.mysql
 ```
 
-Ambas podran implementar las mismas interfaces y ser inyectadas en servicios sin cambiar la logica de negocio.
+La persistencia en memoria ya cubre los agregados principales. La persistencia MySQL esta iniciada con productos y puede ampliarse agregando nuevas clases en `infrastructure.persistence.mysql` sin cambiar servicios ni contratos.
 
 ## Estado final
 

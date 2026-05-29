@@ -54,16 +54,17 @@ En `pom.xml` se añadió:
 
 No se añadió Mockito porque no hacía falta para este slice funcional. La capa de servicios quedó aislada mediante objetos de dominio/DTO construidos directamente dentro de cada test.
 
-## Resultado final
+## Resultado de la capa de servicios
 
-La verificación se ejecutó con Maven y el resultado fue correcto:
+La verificación inicial de la issue #8 se ejecutó con Maven y el resultado fue correcto para los tests de servicio creados en ese momento.
 
-- 14 tests ejecutados
-- 0 fallos
-- 0 errores
-- build exitoso
+En el estado actual del proyecto, esos tests conviven con pruebas adicionales de repositorios, factory y arranque de menú. La suite completa debe ejecutarse con:
 
-La validación se realizó con Maven 3.9.9 en un contenedor oficial porque la terminal local no tenía `mvn` instalado.
+```bash
+mvn test
+```
+
+La revision final de la issue #15 deja la suite en 44 tests ejecutados, 0 fallos y 0 errores.
 
 ## Flujo seguido
 

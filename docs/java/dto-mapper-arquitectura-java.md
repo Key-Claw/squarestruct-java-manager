@@ -15,7 +15,8 @@ Ahora también existe:
 ```text
 application
 ├── dto
-└── mapper
+├── mapper
+└── service
 ```
 
 Esto permite que el proyecto empiece a organizarse de una forma más profesional y escalable.
@@ -207,10 +208,17 @@ Separar capas permite:
 src/main/java/com.squarestruct
 ├── application
 │   ├── dto
-│   └── mapper
+│   ├── mapper
+│   └── service
 ├── domain
 │   ├── enums
-│   └── model
+│   ├── model
+│   └── repository
+├── infrastructure
+│   ├── config
+│   └── persistence
+└── manager
+    └── ui
 ```
 
 ---

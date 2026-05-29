@@ -6,9 +6,9 @@ import com.squarestruct.application.service.PlantillaService;
 import com.squarestruct.application.service.PresupuestoService;
 import com.squarestruct.application.service.ProductoService;
 import com.squarestruct.application.service.ProveedorService;
+import com.squarestruct.infrastructure.config.DatabaseConfig;
 import com.squarestruct.infrastructure.persistence.factory.RepositoryFactory;
 import com.squarestruct.infrastructure.persistence.factory.RepositoryFactoryProvider;
-import com.squarestruct.manager.config.DatabaseConfig;
 import com.squarestruct.manager.ui.menu.MainMenu;
 import java.util.Properties;
 

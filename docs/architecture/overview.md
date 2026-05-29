@@ -1,17 +1,17 @@
-# Arquitectura inicial
+# Arquitectura
 
-Este documento resume la estructura general de capas del proyecto y enlaza la documentacion tecnica de cada pieza nueva.
+Este documento resume la estructura general de capas del proyecto y enlaza la documentacion tecnica principal.
 
 SquareStruct Java Manager sigue una arquitectura en capas orientada a separar responsabilidades dentro de la aplicación.
 
 ## Paquetes principales
 
-- `com.squarestruct.manager`: punto de entrada, carga de configuracion y menu de consola.
+- `com.squarestruct.manager`: punto de entrada y menu de consola.
 - `com.squarestruct.application`: servicios, DTOs y mappers de aplicacion.
 - `com.squarestruct.domain`: modelos, enumerados y contratos de repositorio.
-- `com.squarestruct.infrastructure`: implementaciones de persistencia y factories.
+- `com.squarestruct.infrastructure`: configuracion, factories e implementaciones de persistencia.
 
-El proyecto conserva algunos paquetes historicos como `manager.config` y `manager.connection`, pero el flujo actual se organiza alrededor de `manager`, `application`, `domain` e `infrastructure`.
+La estructura fisica de `src/main/java` sigue esos mismos paquetes para que el codigo sea facil de estudiar desde el arbol del proyecto.
 
 ## Repositorios
 
@@ -26,7 +26,7 @@ Usa colecciones Java y queda documentada en [Persistencia en memoria](inmemory-p
 
 ## Factory de repositorios
 
-La seleccion de persistencia se centraliza en `com.squarestruct.infrastructure.persistence.factory`.
+La configuracion se carga desde `com.squarestruct.infrastructure.config` y la seleccion de persistencia se centraliza en `com.squarestruct.infrastructure.persistence.factory`.
 El detalle de `RepositoryFactory`, `InMemoryRepositoryFactory`, `MySqlRepositoryFactory` y `RepositoryFactoryProvider` queda documentado en [Factory de repositorios](repository-factory.md).
 
 ## Gestion de presupuestos
@@ -39,7 +39,7 @@ El flujo interactivo de `MainMenu` conecta los modulos administrativos con servi
 
 ## Mejoras futuras
 
-Docker queda previsto como mejora futura. El repositorio contiene `docker-compose.yml`, pero todavia no existe una configuracion operativa ni un `Dockerfile`.
+Docker queda previsto como mejora futura. El repositorio no incluye actualmente una configuracion Docker operativa.
 
 ## Objetivo
 
